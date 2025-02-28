@@ -96,15 +96,24 @@ def refresh_table():
     
     table.delete(*table.get_children())
     
-    
     search_text = entry_search.get().strip().lower()
-    
     
     if search_text:
         for student in all_students:
+            gender = student[4].lower()
+            gender_match = False
             
-            if any(search_text in str(student[i]).lower() for i in range(len(student))):
-                table.insert("", "end", values=student)
+            
+            if search_text in ["male", "female", "others"]:
+                gender_match = search_text == gender.lower()
+                
+                
+                if gender_match:
+                    table.insert("", "end", values=student)
+            else:
+                
+                if any(search_text in str(student[i]).lower() for i in range(len(student))):
+                    table.insert("", "end", values=student)
     else:
         
         for student in all_students:
@@ -306,7 +315,7 @@ def update_student():
         
         
         for i, student in enumerate(all_students):
-            if student[0] == original_id:  # Match by ID
+            if student[0] == original_id:  
                 all_students[i] = updated_student
                 break
         
