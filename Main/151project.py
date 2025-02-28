@@ -84,11 +84,35 @@ def is_duplicate_id(idno, current_item=None):
             return False
     
     for item in table.get_children():
-        if current_item and item == item: 
+        if current_item and item == current_item: 
             continue
         if table.item(item)['values'][0] == idno:  
             return True
     return False
+
+
+def refresh_table():
+    global all_students
+    
+    table.delete(*table.get_children())
+    
+    
+    search_text = entry_search.get().strip().lower()
+    
+    
+    if search_text:
+        for student in all_students:
+            
+            if any(search_text in str(student[i]).lower() for i in range(len(student))):
+                table.insert("", "end", values=student)
+    else:
+        
+        for student in all_students:
+            table.insert("", "end", values=student)
+    
+    
+    if sort_options.get():
+        sort_table()
 
 
 def add_student():
@@ -121,31 +145,22 @@ def add_student():
         full_course_name = next((course for course in college_courses[selected_college] 
                                if course.startswith(selected_course_abbr)), "")
         
-        # Create new student tuple
+        
         new_student = (student_idno, student_firstname, student_lastname, 
                       student_age, student_gender, student_yearlevel, 
                       selected_college, full_course_name)
         
-        # Add to all_students list
+        
         all_students.append(new_student)
         
-        # Clear and repopulate table based on search state
-        search_text = entry_search.get().strip()
-        if search_text:
-            # If in search mode, only add if matches search
-            if any(str(new_student[i]).lower().startswith(search_text.lower()) for i in [0, 1, 2]):
-                table.insert("", "end", values=new_student)
-        else:
-            # If not in search mode, show all data
-            table.insert("", "end", values=new_student)
-
-        # Sort if needed
-        if sort_options.get():
-            sort_table()
-            
+        
+        refresh_table()
+        
+        
         save_to_csv()
         new_window.destroy()
 
+    
     def validate_char(char):
         return char.isalpha() or char == "" or char == " "
 
@@ -226,6 +241,7 @@ def add_student():
     button_save = tk.Button(new_window, text="Save", bg="#d9a300", command=save_student)
     button_save.grid(row=9, column=0, columnspan=2, pady=10)
 
+
 def delete_student():
     global all_students
     selected_item = table.selection()
@@ -235,15 +251,15 @@ def delete_student():
 
     confirm = messagebox.askyesno("Delete Confirmation", "Are you sure you want to delete this student?")
     if confirm:
-        deleted_values = table.item(selected_item)['values']
-
-        table.delete(selected_item)
+        deleted_id = table.item(selected_item)['values'][0]
         
-        # Remove from all_students list based on ID
-        all_students = [student for student in all_students if student[0] != deleted_values[0]]
+        
+        all_students = [student for student in all_students if student[0] != deleted_id]
         
         save_to_csv()
-        search_student()
+        
+        refresh_table()
+
 
 def update_student():
     selected_item = table.selection()
@@ -280,31 +296,30 @@ def update_student():
         full_course_name = next((course for course in college_courses[selected_college] 
                                if course.startswith(selected_course_abbr)), "")
         
-        # Create updated student tuple
+        
         updated_student = (student_idno, student_firstname, student_lastname, 
                           student_age, student_gender, student_yearlevel, 
                           selected_college, full_course_name)
         
-        # Update in all_students list
+        
+        original_id = table.item(selected_item)['values'][0]
+        
+        
         for i, student in enumerate(all_students):
-            if student[0] == current_values[0]:  # Match by ID
+            if student[0] == original_id:  # Match by ID
                 all_students[i] = updated_student
                 break
         
-        # Update table item
-        table.item(selected_item, values=updated_student)
-        
-        # Sort if needed
-        if sort_options.get():
-            sort_table()
-        
-        save_to_csv()
-        update_window.destroy()
        
-        search_student()
+        save_to_csv()
+        
+        refresh_table()
+        
+        update_window.destroy()
 
+    
     def validate_char(current_value, inserted_char):
-        return all(c.isalpha() or c.isspace() for c in current_value + inserted_char)
+        return all(c.isalpha() or c.isspace() for c in current_value + inserted_char) or inserted_char == ""
 
     def validate_int(char):
         return char.isdigit() or char == ""
@@ -316,7 +331,8 @@ def update_student():
         selected_college = college_var.get()
         course_options = college_courses.get(selected_college, [])
         course_dropdown['values'] = [course.split(' - ')[0] for course in course_options]  
-        course_var.set('')  
+        if not course_var.get() or course_var.get() not in [c.split(' - ')[0] for c in course_options]:
+            course_var.set('')  
 
     update_window = tk.Toplevel(window)
     update_window.geometry("400x300")
@@ -387,40 +403,51 @@ def update_student():
     course_dropdown.grid(row=8, column=1)
 
     update_courses()
-    course_var.set(current_values[7])
+    
+    
+    full_course = current_values[7]
+    course_abbr = full_course.split(' - ')[0] if ' - ' in full_course else full_course
+    course_var.set(course_abbr)
 
     button_save = tk.Button(update_window, text="Save Changes", bg="#d9a300", command=save_changes)
     button_save.grid(row=9, column=0, columnspan=2, pady=10)
 
-# Add this function to keep track of current sort column
-def get_current_sort():
-    sort_by = sort_options.get()
-    if not sort_by:
-        return None
-    return columns.index(sort_by)
 
-# Modify sort_table function
 def sort_table():
     sort_by = sort_options.get()
     if not sort_by:
-        messagebox.showwarning("No Selection", "Please select a column to sort by.")
-        return
-
+        return  
+    
+    
     col_index = columns.index(sort_by)
-    data = [(table.set(child, col_index), child) for child in table.get_children('')]
-    data.sort(reverse=False)
-
+    
+    
+    children = table.get_children('')
+    if not children:
+        return
+    
+    data = [(table.set(child, col_index), child) for child in children]
+    
+    if sort_by == "Age":
+        data = [(int(val) if val.isdigit() else val, child) for val, child in data]
+    
+    data.sort()
+    
     for index, (_, child) in enumerate(data):
         table.move(child, '', index)
+
 
 def clear_table():
     global all_students
     confirm = messagebox.askyesno("Clear Data Confirmation", "Are you sure you want to clear all data?")
     if confirm:
+        
+        all_students = []
+        
+        
         for item in table.get_children():
             table.delete(item)
-
-        all_students = []
+        
         
         try:
             with open(CSV_FILE, 'w', newline='') as csvfile:
@@ -431,49 +458,39 @@ def clear_table():
         
         entry_search.delete(0, 'end')
 
+
 all_students = []
 
+
 def search_student(event=None):
-    global all_students
-    search_text = entry_search.get().strip().lower()
+    refresh_table()  
 
-    
-    if not all_students:
-        all_students = [table.item(item)['values'] for item in table.get_children()]
-
-   
-    table.delete(*table.get_children())
-
-    
-    if search_text:
-        for student in all_students:
-            if any(str(student[i]).lower().startswith(search_text) for i in [0, 1, 2]):
-                table.insert("", "end", values=student)
-    else:
-        for student in all_students:
-            table.insert("", "end", values=student)
 
 def save_to_csv():
-    data = []
-    for item in table.get_children():
-        data.append(table.item(item)['values'])
-    
     try:
         with open(CSV_FILE, 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
-            writer.writerow(columns) 
-            writer.writerows(data)    
+            writer.writerow(columns)  
+            writer.writerows(all_students)  
     except Exception as e:
         messagebox.showerror("Error", f"Failed to save data: {str(e)}")
 
+
 def load_initial_data():
+    global all_students
+    all_students = []  
+    
     if os.path.exists(CSV_FILE):
         try:
             with open(CSV_FILE, 'r') as csvfile:
                 reader = csv.reader(csvfile)
                 next(reader)  
                 for row in reader:
-                    table.insert("", "end", values=row)
+                    if len(row) == len(columns):  
+                        all_students.append(tuple(row))
+            
+            
+            refresh_table()
         except Exception as e:
             messagebox.showerror("Error", f"Failed to load data: {str(e)}")
 
