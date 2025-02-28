@@ -239,7 +239,8 @@ def delete_student():
 
         table.delete(selected_item)
         
-        all_students = [student for student in all_students if student != deleted_values]
+        # Remove from all_students list based on ID
+        all_students = [student for student in all_students if student[0] != deleted_values[0]]
         
         save_to_csv()
         search_student()
