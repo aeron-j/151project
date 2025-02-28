@@ -79,10 +79,15 @@ college_courses = {
 }
 
 def is_duplicate_id(idno, current_item=None):
+    if current_item:
+        current_id = table.item(current_item)['values'][0]
+        if idno == current_id:  
+            return False
+    
     for item in table.get_children():
-        if current_item and item == current_item:
+        if current_item and item == current_item: 
             continue
-        if table.item(item)['values'][0] == idno:
+        if table.item(item)['values'][0] == idno:  
             return True
     return False
 
@@ -120,8 +125,13 @@ def add_student():
         table.insert("", "end", values=(student_idno, student_firstname, student_lastname, 
                                         student_age, student_gender, student_yearlevel, 
                                         selected_college, full_course_name))
+
+        all_students.append((student_idno, student_firstname, student_lastname, 
+                           student_age, student_gender, student_yearlevel, 
+                           selected_college, full_course_name))
         save_to_csv()
         new_window.destroy()
+        search_student()
 
     def validate_char(char):
         return char.isalpha() or char == "" or char == " "
@@ -272,8 +282,20 @@ def update_student():
         table.item(selected_item, values=(student_idno, student_firstname, student_lastname, 
                                           student_age, student_gender, student_yearlevel, 
                                           selected_college, full_course_name))
+        
+     
+        global all_students
+        for i, student in enumerate(all_students):
+            if student[0] == current_values[0]:  
+                all_students[i] = (student_idno, student_firstname, student_lastname,
+                                 student_age, student_gender, student_yearlevel,
+                                 selected_college, full_course_name)
+                break
+                
         save_to_csv()
         update_window.destroy()
+       
+        search_student()
 
     def validate_char(current_value, inserted_char):
         return all(c.isalpha() or c.isspace() for c in current_value + inserted_char)
@@ -399,25 +421,26 @@ all_students = []
 
 def search_student(event=None):
     global all_students
-
     search_text = entry_search.get().strip().lower()
 
+    
     if not all_students:
         all_students = [table.item(item)['values'] for item in table.get_children()]
 
-    if not search_text:
-        table.delete(*table.get_children())
-        for student in all_students:
-            table.insert("", "end", values=student)
-        return
-
+   
     table.delete(*table.get_children())
 
-    for student in all_students:
-        student_data = [str(item).lower() for item in student]
+    
+    students_to_show = all_students
+    if search_text:
+        students_to_show = [
+            student for student in all_students 
+            if any(str(field).lower().startswith(search_text) for field in student)
+        ]
 
-        if any(field.startswith(search_text) for field in student_data):
-            table.insert("", "end", values=student)
+   
+    for student in students_to_show:
+        table.insert("", "end", values=student)
 
 def save_to_csv():
     data = []
