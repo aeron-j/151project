@@ -4,78 +4,704 @@ from tkinter import messagebox
 import os
 import re
 import csv
+import tkinter.simpledialog as simpledialog
 
 CSV_FILE = os.path.join(os.path.dirname(__file__), 'student_data.csv')
+COLLEGE_CSV = os.path.join(os.path.dirname(__file__), 'colleges.csv')
+COURSE_CSV = os.path.join(os.path.dirname(__file__), 'courses.csv')
 
 window = tk.Tk()
 window.geometry("1250x500")
 window.title("Student Data")
 
-college_courses = {
-    "COE - College of Engineering": [
-        "DCET - Diploma in Chemical Engineering Technology",
-        "BSCerE - Bachelor of Science in Ceramic Engineering",
-        "BSCE - Bachelor of Science in Civil Engineering",
-        "BSEE - Bachelor of Science in Electrical Engineering",
-        "BSME - Bachelor of Science in Mechanical Engineering",
-        "BSChE - Bachelor of Science in Chemical Engineering",
-        "BSMetE - Bachelor of Science in Metallurgical Engineering",
-        "BSCpE - Bachelor of Science in Computer Engineering",
-        "BSMinE - Bachelor of Science in Mining Engineering",
-        "BSECE - Bachelor of Science in Electronics & Communications Engineering",
-        "BSEnET - Bachelor of Science in Environmental Engineering"
-    ],
-    "CSM - College of Science and Mathematics": [
-        "BSBio-Bot - Bachelor of Science in Biology (Botany)",
-        "BSChem - Bachelor of Science in Chemistry",
-        "BSMath - Bachelor of Science in Mathematics",
-        "BSPhys - Bachelor of Science in Physics",
-        "BSBio-Zoo - Bachelor of Science in Biology (Zoology)",
-        "BSBio-Mar - Bachelor of Science in Biology (Marine)",
-        "BSBio-Gen - Bachelor of Science in Biology (General)",
-        "BSStat - Bachelor of Science in Statistics"
-    ],
-    "CCS - College of Computer Studies": [
-        "BSCS - Bachelor of Science in Computer Science",
-        "BSIT - Bachelor of Science in Information Technology",
-        "BSIS - Bachelor of Science in Information Systems",
-        "BSCA - Bachelor of Science in Computer Application"
-    ],
-    "CED - College of Education": [
-        "BEEd-SciMath - Bachelor of Elementary Education (Science and Mathematics)",
-        "BEEd-Lang - Bachelor of Elementary Education (Language Education)",
-        "BSEd-Bio - Bachelor of Secondary Education (Biology)",
-        "BSEd-Chem - Bachelor of Secondary Education (Chemistry)",
-        "BSEd-Phys - Bachelor of Secondary Education (Physics)",
-        "BSEd-Math - Bachelor of Secondary Education (Mathematics)",
-        "BPEd - Bachelor of Physical Education",
-        "BTLED-HE - Bachelor of Technology and Livelihood Education (Home Economics)",
-        "BTLed-IA - Bachelor of Technology and Livelihood Education (Industrial Arts)",
-        "BTVTED-DT - Bachelor of Technical-Vocational Teacher Education (Drafting Technology)"
-    ],
-    "CASS - College of Arts and Social Sciences": [
-        "BA-ELS - Bachelor of Arts in English Language Studies",
-        "BA-LCS - Bachelor of Arts in Literary and Cultural Studies",
-        "BA-FIL - Bachelor of Arts in Filipino",
-        "BA-PAN - Bachelor of Arts in Panitikan",
-        "BA-POLSCI - Bachelor of Arts in Political Science",
-        "BA-PSY - Bachelor of Arts in Psychology",
-        "BA-SOC - Bachelor of Arts in Sociology",
-        "BA-HIS-IH - Bachelor of Arts in History (International History Track)",
-        "BS-PHIL-AE - Bachelor of Science in Philosophy",
-        "BS-PSY - Bachelor of Science in Psychology"
-    ],
-    "CEBA - College of Economics, Business & Accountancy": [
-        "BS-ACC - Bachelor of Science in Accountancy",
-        "BSBA-BE - Bachelor of Science in Business Administration (Business Economics)",
-        "BSBA-MM - Bachelor of Science in Business Administration (Marketing Management)",
-        "BS-ENT - Bachelor of Science in Entrepreneurship",
-        "BSHM - Bachelor of Science in Hospitality Management"
-    ],
-    "CHS - College of Health Sciences": [
-        "BSN - Bachelor of Science in Nursing"
-    ]
-}
+college_courses = {}
+
+def load_college_courses_from_csv():
+    global college_courses
+    college_courses.clear()
+    
+    
+    if not os.path.exists(COLLEGE_CSV):
+        with open(COLLEGE_CSV, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(["College Code", "College Name"])
+    
+    
+    if not os.path.exists(COURSE_CSV):
+        with open(COURSE_CSV, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(["College", "Course Code", "Course Name"])
+    
+    try:
+        
+        with open(COLLEGE_CSV, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            next(reader)  
+            for row in reader:
+                if row:  
+                    college_code, college_name = row
+                    college_full = f"{college_code} - {college_name}"
+                    college_courses[college_full] = []
+        
+        
+        with open(COURSE_CSV, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            next(reader)  
+            for row in reader:
+                if row:  
+                    college, course_code, course_name = row
+                    course_full = f"{course_code} - {course_name}"
+                    if college in college_courses:
+                        college_courses[college].append(course_full)
+                        
+    except Exception as e:
+        print(f"Error loading college courses: {e}")
+        messagebox.showerror("Error", f"Failed to load college and course data: {str(e)}")
+
+load_college_courses_from_csv()
+
+class CollegeCourseManager:
+    def __init__(self, main_window, college_courses, CSV_FILE):
+        self.main_window = main_window
+        self.original_college_courses = college_courses.copy()  
+        self.college_courses = college_courses.copy()  
+        self.CSV_FILE = CSV_FILE
+        
+        
+        self.window = tk.Toplevel(main_window)
+        self.window.title("College and Course Management")
+        self.window.geometry("1200x500")
+        self.window.config(bg="#800000")
+
+        
+        self.college_frame = tk.Frame(self.window, bg="#800000")
+        self.college_frame.pack(side=tk.LEFT, padx=10, pady=10, fill=tk.BOTH, expand=False)
+
+        self.course_frame = tk.Frame(self.window, bg="#800000")
+        self.course_frame.pack(side=tk.RIGHT, padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+        
+        tk.Label(self.college_frame, text="Colleges", bg="#800000", fg="white", 
+                font=("Arial", 14, "bold")).pack(pady=10)
+        
+       
+        self.college_columns = ("College Name", "Number of Courses")
+        self.college_table = ttk.Treeview(self.college_frame, columns=self.college_columns, 
+                                        show="headings", height=15)
+        for col in self.college_columns:
+            self.college_table.heading(col, text=col)
+            self.college_table.column(col, width=150)
+        self.college_table.pack(fill=tk.BOTH, expand=True)
+
+        
+        college_button_frame = tk.Frame(self.college_frame, bg="#800000")
+        college_button_frame.pack(pady=10)
+        
+        tk.Button(college_button_frame, text="Add", bg="#7d6a69", fg="white", 
+                 command=self.add_college, width=8).pack(side=tk.LEFT, padx=2)
+        tk.Button(college_button_frame, text="Edit", bg="#7d6a69", fg="white", 
+                 command=self.edit_college, width=8).pack(side=tk.LEFT, padx=2)
+        tk.Button(college_button_frame, text="Delete", bg="#7d6a69", fg="white", 
+                 command=self.delete_college, width=8).pack(side=tk.LEFT, padx=2)
+
+       
+        tk.Label(self.course_frame, text="Courses", bg="#800000", fg="white", 
+                font=("Arial", 14, "bold")).pack(pady=10)
+        
+        
+        filter_frame = tk.Frame(self.course_frame, bg="#800000")
+        filter_frame.pack(pady=5)
+        
+        tk.Label(filter_frame, text="Filter by College:", 
+                bg="#800000", fg="white").pack(side=tk.LEFT, padx=5)
+        self.college_filter_var = tk.StringVar()
+        self.college_filter_var.set("All Colleges")  
+        
+       
+        college_options = ["All Colleges"] + list(self.college_courses.keys())
+        self.college_filter_dropdown = ttk.Combobox(filter_frame, 
+                                                  textvariable=self.college_filter_var, 
+                                                  values=college_options, 
+                                                  state='readonly', width=30)
+        self.college_filter_dropdown.pack(side=tk.LEFT, padx=5)
+        
+      
+        tk.Button(filter_frame, text="Apply Filter", 
+                 bg="#7d6a69", fg="white",
+                 command=self.refresh_courses).pack(side=tk.LEFT, padx=5)
+
+        
+        self.course_columns = ("College", "Course Code", "Course Name")
+        self.course_table = ttk.Treeview(self.course_frame, columns=self.course_columns, 
+                                       show="headings")
+        for col in self.course_columns:
+            self.course_table.heading(col, text=col)
+            if col == "Course Name":
+                self.course_table.column(col, width=300)
+            else:
+                self.course_table.column(col, width=150)
+        self.course_table.pack(fill=tk.BOTH, expand=True)
+
+        
+        course_button_frame = tk.Frame(self.course_frame, bg="#800000")
+        course_button_frame.pack(pady=10)
+        
+        tk.Button(course_button_frame, text="Add", bg="#7d6a69", fg="white", 
+                 command=self.add_course, width=8).pack(side=tk.LEFT, padx=2)
+        tk.Button(course_button_frame, text="Edit", bg="#7d6a69", fg="white", 
+                 command=self.edit_course, width=8).pack(side=tk.LEFT, padx=2)
+        tk.Button(course_button_frame, text="Delete", bg="#7d6a69", fg="white", 
+                 command=self.delete_course, width=8).pack(side=tk.LEFT, padx=2)
+
+        
+        self.refresh_tables()
+        
+        
+        self.college_table.bind("<<TreeviewSelect>>", self.on_college_select)
+        self.college_table.bind("<Double-1>", self.on_college_double_click)
+        self.course_table.bind("<Double-1>", self.on_course_double_click)
+
+    def save_to_csv(self):
+        try:
+            
+            with open(COLLEGE_CSV, 'w', newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                writer.writerow(["College Code", "College Name"])
+                for college in self.college_courses.keys():
+                    code, name = college.split(' - ', 1)
+                    writer.writerow([code, name])
+            
+            
+            with open(COURSE_CSV, 'w', newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                writer.writerow(["College", "Course Code", "Course Name"])
+                for college, courses in self.college_courses.items():
+                    for course in courses:
+                        code, name = course.split(' - ', 1)
+                        writer.writerow([college, code, name])
+                        
+            
+            global college_courses
+            college_courses.clear()
+            college_courses.update(self.college_courses)
+            
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to save college/course data: {str(e)}")
+            
+    def refresh_tables(self):
+        self.populate_college_table()
+        self.populate_course_table()
+
+    def populate_college_table(self):
+        
+        for item in self.college_table.get_children():
+            self.college_table.delete(item)
+        
+        
+        for college, courses in self.college_courses.items():
+            self.college_table.insert("", "end", values=(college, len(courses)))
+
+    def populate_course_table(self):
+        self.refresh_courses()
+
+    def refresh_courses(self):
+        
+        for item in self.course_table.get_children():
+            self.course_table.delete(item)
+        
+        selected_college = self.college_filter_var.get()
+        
+        
+        if selected_college == "All Colleges":
+            
+            for college, courses in self.college_courses.items():
+                for course in courses:
+                    course_code, course_name = course.split(' - ', 1)
+                    self.course_table.insert("", "end", values=(college, course_code, course_name))
+        else:
+            
+            for course in self.college_courses.get(selected_college, []):
+                course_code, course_name = course.split(' - ', 1)
+                self.course_table.insert("", "end", values=(selected_college, course_code, course_name))
+
+    def on_college_select(self, event):
+        pass
+        
+    def highlight_courses_for_college(self, college_name):
+        
+        for item in self.course_table.get_children():
+            self.course_table.selection_remove(item)
+        
+        
+        for item in self.course_table.get_children():
+            if self.course_table.item(item)['values'][0] == college_name:
+                self.course_table.selection_add(item)
+    
+    def on_college_double_click(self, _):
+        
+        selected_items = self.college_table.selection()
+        
+        for item in selected_items:
+            self.college_table.selection_remove(item)
+
+    def on_course_double_click(self, _):
+        
+        selected_items = self.course_table.selection()
+        
+        for item in selected_items:
+            self.course_table.selection_remove(item)
+
+    def add_college(self):
+        
+        add_college_dialog = tk.Toplevel(self.window)
+        add_college_dialog.title("Add New College")
+        add_college_dialog.geometry("400x200")
+        add_college_dialog.config(bg="#800000")
+        
+        add_college_dialog.transient(self.window)
+        add_college_dialog.grab_set()
+        
+        tk.Label(add_college_dialog, text="College Code (e.g., CCS):", 
+                bg="#800000", fg="white").pack(pady=5)
+        college_code_entry = self.create_validated_entry(add_college_dialog, "code")
+        college_code_entry.pack(pady=5)
+        
+        tk.Label(add_college_dialog, text="College Name (e.g., College of Computer Studies):", 
+                bg="#800000", fg="white").pack(pady=5)
+        college_name_entry = self.create_validated_entry(add_college_dialog, "text")
+        college_name_entry.config(width=50)
+        college_name_entry.pack(pady=5)
+        
+        def save_college():
+            college_code = college_code_entry.get().strip().upper()
+            college_name = college_name_entry.get().strip().title()
+            
+            if self.validate_college_input(college_code, college_name):
+                new_college = f"{college_code} - {college_name}"
+                self.college_courses[new_college] = []
+                self.save_to_csv()
+                self.refresh_tables()
+                add_college_dialog.destroy()
+        
+        tk.Button(add_college_dialog, text="Save", bg="#7d6a69", fg="white", 
+                 command=save_college).pack(pady=10)
+
+    def delete_college(self):
+        global all_students
+        selected_college = self.college_table.selection()
+        if not selected_college:
+            messagebox.showwarning("No Selection", "Please select a college to delete.")
+            return
+        
+        college_name = self.college_table.item(selected_college)['values'][0]
+        confirm = messagebox.askyesno("Delete Confirmation", 
+                                     f"Are you sure you want to delete {college_name} and all its courses?\n" 
+                                     "This will also clear this college from all affected student records.")
+        
+        if confirm:
+            
+            updated_students = []
+            for student in all_students:
+                if student[6] == college_name:  
+                    
+                    updated_student = student[:6] + ("", "") + student[8:] if len(student) > 8 else student[:6] + ("", "")
+                    updated_students.append(updated_student)
+                else:
+                    updated_students.append(student)
+            
+            
+            all_students.clear()
+            all_students.extend(updated_students)
+            
+            
+            del self.college_courses[college_name]
+            
+            
+            self.save_to_csv()
+            save_to_csv()  
+            
+            
+            self.refresh_tables()
+            refresh_table()  
+
+    def edit_college(self):
+        selected_college = self.college_table.selection()
+        if not selected_college:
+            messagebox.showwarning("No Selection", "Please select a college to edit.")
+            return
+        
+        old_college_full = self.college_table.item(selected_college)['values'][0]
+        old_college_code, old_college_name = old_college_full.split(' - ')
+        
+        
+        edit_college_dialog = tk.Toplevel(self.window)
+        edit_college_dialog.title("Edit College")
+        edit_college_dialog.geometry("400x200")
+        edit_college_dialog.config(bg="#800000")
+        
+        edit_college_dialog.transient(self.window)
+        edit_college_dialog.grab_set()
+        
+        tk.Label(edit_college_dialog, text="College Code:", 
+                bg="#800000", fg="white").pack(pady=5)
+        college_code_entry = self.create_validated_entry(edit_college_dialog, "code")
+        college_code_entry.insert(0, old_college_code)
+        college_code_entry.pack(pady=5)
+        
+        tk.Label(edit_college_dialog, text="College Name:", 
+                bg="#800000", fg="white").pack(pady=5)
+        college_name_entry = self.create_validated_entry(edit_college_dialog, "text")
+        college_name_entry.insert(0, old_college_name)
+        college_name_entry.config(width=50)
+        college_name_entry.pack(pady=5)
+        
+        def save_changes():
+            new_college_code = college_code_entry.get().strip().upper()
+            new_college_name = college_name_entry.get().strip().title()
+            
+            if self.validate_college_input(new_college_code, new_college_name, 
+                                         old_college_code, old_college_name):
+                new_college_full = f"{new_college_code} - {new_college_name}"
+                courses = self.college_courses.pop(old_college_full)
+                self.college_courses[new_college_full] = courses
+                self.save_to_csv()
+                self.refresh_tables()
+                edit_college_dialog.destroy()
+        
+        tk.Button(edit_college_dialog, text="Save Changes", bg="#7d6a69", fg="white", 
+                 command=save_changes).pack(pady=10)
+
+    def add_course(self):
+        
+        add_course_dialog = tk.Toplevel(self.window)
+        add_course_dialog.title("Add New Course")
+        add_course_dialog.geometry("600x250")
+        add_course_dialog.config(bg="#800000")
+        
+        add_course_dialog.transient(self.window)
+        add_course_dialog.grab_set()
+        
+        
+        tk.Label(add_course_dialog, text="Select College:", 
+                bg="#800000", fg="white").pack(pady=5)
+        college_var = tk.StringVar()
+        college_dropdown = ttk.Combobox(add_course_dialog, 
+                                      textvariable=college_var,
+                                      values=list(self.college_courses.keys()), 
+                                      state='readonly')
+        college_dropdown.pack(pady=5)
+        
+        
+        tk.Label(add_course_dialog, text="Course Code (e.g., BSCS):", 
+                bg="#800000", fg="white").pack(pady=5)
+        course_code_entry = self.create_validated_entry(add_course_dialog, "code")
+        course_code_entry.pack(pady=5)
+        
+        
+        tk.Label(add_course_dialog, text="Course Name:", 
+                bg="#800000", fg="white").pack(pady=5)
+        course_name_entry = self.create_validated_entry(add_course_dialog, "text")
+        course_name_entry.config(width=80)
+        course_name_entry.pack(pady=5)
+        
+        def save_course():
+            selected_college = college_var.get()
+            course_code = course_code_entry.get().strip().upper()
+            course_name = course_name_entry.get().strip().title()
+            
+            if self.validate_course_input(selected_college, course_code, course_name):
+                new_course = f"{course_code} - {course_name}"
+                self.college_courses[selected_college].append(new_course)
+                self.save_to_csv()
+                self.refresh_tables()
+                add_course_dialog.destroy()
+        
+        tk.Button(add_course_dialog, text="Save", 
+                 bg="#7d6a69", fg="white",
+                 command=save_course).pack(pady=20)
+
+    def delete_course(self):
+        global all_students
+        selected_course = self.course_table.selection()
+        if not selected_course:
+            messagebox.showwarning("No Selection", "Please select a course to delete.")
+            return
+        
+        course_info = self.course_table.item(selected_course)['values']
+        college, course_code, course_name = course_info
+        full_course = f"{course_code} - {course_name}"
+        
+        confirm = messagebox.askyesno("Delete Confirmation", 
+                                     f"Are you sure you want to delete {full_course}?\n"
+                                     "This will also clear this course from all affected student records.")
+        
+        if confirm:
+            
+            updated_students = []
+            for student in all_students:
+                if student[6] == college and student[7].startswith(course_code):
+                    
+                    updated_student = student[:7] + ("",) + student[8:] if len(student) > 8 else student[:7] + ("",)
+                    updated_students.append(updated_student)
+                else:
+                    updated_students.append(student)
+            
+            
+            all_students.clear()
+            all_students.extend(updated_students)
+            
+            
+            self.college_courses[college].remove(full_course)
+            
+            
+            self.save_to_csv()
+            save_to_csv()  
+            
+            
+            self.refresh_tables()
+            refresh_table()  
+
+    def edit_course(self):
+        selected_course = self.course_table.selection()
+        if not selected_course:
+            messagebox.showwarning("No Selection", "Please select a course to edit.")
+            return
+        
+        
+        course_info = self.course_table.item(selected_course)['values']
+        college, old_course_code, old_course_name = course_info
+        old_full_course = f"{old_course_code} - {old_course_name}"
+        
+       
+        edit_course_dialog = tk.Toplevel(self.window)
+        edit_course_dialog.title(f"Edit Course in {college}")
+        edit_course_dialog.geometry("600x200")
+        edit_course_dialog.config(bg="#800000")
+        
+        edit_course_dialog.transient(self.window)
+        edit_course_dialog.grab_set()
+        
+        tk.Label(edit_course_dialog, text="Course Code:", 
+                bg="#800000", fg="white").pack(pady=5)
+        course_code_entry = self.create_validated_entry(edit_course_dialog, "code")
+        course_code_entry.insert(0, old_course_code)
+        course_code_entry.pack(pady=5)
+        
+        tk.Label(edit_course_dialog, text="Course Name:", 
+                bg="#800000", fg="white").pack(pady=5)
+        course_name_entry = self.create_validated_entry(edit_course_dialog, "text")
+        course_name_entry.insert(0, old_course_name)
+        course_name_entry.config(width=80)
+        course_name_entry.pack(pady=5)
+        
+        def save_changes():
+            new_course_code = course_code_entry.get().strip().upper()
+            new_course_name = course_name_entry.get().strip().title()
+            
+            if self.validate_course_input(college, new_course_code, new_course_name,
+                                        old_course_code, old_course_name):
+                new_full_course = f"{new_course_code} - {new_course_name}"
+                index = self.college_courses[college].index(old_full_course)
+                self.college_courses[college][index] = new_full_course
+                self.save_to_csv()
+                self.refresh_tables()
+                edit_course_dialog.destroy()
+                
+        tk.Button(edit_course_dialog, text="Save Changes", 
+                 bg="#7d6a69", fg="white",
+                 command=save_changes).pack(pady=10)
+
+    def check_college_duplicate(self, college_code, college_name, old_code=None, old_name=None):
+        
+        for existing in self.college_courses.keys():
+            existing_code, existing_name = existing.split(' - ', 1)
+            
+            
+            if old_code and old_name and existing_code == old_code and existing_name == old_name:
+                continue
+                
+           
+            if college_code.upper() == existing_code.upper():
+                messagebox.showerror("Duplicate Error", 
+                                    f"College code '{college_code}' already exists in the system.")
+                return True
+                
+            
+            if college_name.lower() == existing_name.lower():
+                messagebox.showerror("Duplicate Error", 
+                                    f"A college with name '{college_name}' already exists.")
+                return True
+        return False
+
+    def check_course_duplicate(self, college, course_code, course_name, old_course=None):
+        
+        old_code = None
+        old_name = None
+        
+        if old_course:
+            old_parts = old_course.split(' - ', 1)
+            if len(old_parts) == 2:
+                old_code, old_name = old_parts
+        
+       
+        for existing in self.college_courses[college]:
+            existing_code, existing_name = existing.split(' - ', 1)
+            
+            
+            if old_code and old_name and existing_code == old_code and existing_name == old_name:
+                continue
+                
+           
+            if course_code.upper() == existing_code.upper():
+                messagebox.showerror("Duplicate Error", 
+                                    f"Course code '{course_code}' already exists in {college}.")
+                return True
+                
+            
+            if course_name.lower() == existing_name.lower():
+                messagebox.showerror("Duplicate Error", 
+                                    f"A course with name '{course_name}' already exists in {college}.")
+                return True
+        
+       
+        for other_college, courses in self.college_courses.items():
+            if other_college == college:
+                continue  
+                
+            for existing in courses:
+                existing_code, existing_name = existing.split(' - ', 1)
+                
+                
+                if course_code.upper() == existing_code.upper():
+                    messagebox.showerror("Duplicate Error", 
+                                        f"Course code '{course_code}' already exists in {other_college}.")
+                    return True
+        
+        return False
+
+    def validate_code_format(self, code, type_name):
+        
+        if not code.isalpha():
+            messagebox.showerror("Invalid Format", 
+                                f"{type_name} code must contain only letters.")
+            return False
+        return True
+
+    def validate_text_only(self, text, field_name):
+        
+        if any(char.isdigit() for char in text):
+            messagebox.showerror("Invalid Input", 
+                                f"{field_name} must not contain numbers.")
+            return False
+        return True
+
+    def create_validated_entry(self, parent, validate_type="text"):
+        
+        entry = tk.Entry(parent)
+        
+        if validate_type == "text":
+            
+            def validate_text(char):
+                return not char.isdigit()
+                
+            vcmd = (parent.register(validate_text), '%S')
+            entry.config(validate="key", validatecommand=vcmd)
+        
+        elif validate_type == "code":
+            
+            def validate_code(char):
+                return char.isalpha()
+                
+            vcmd = (parent.register(validate_code), '%S')
+            entry.config(validate="key", validatecommand=vcmd)
+            
+        return entry
+
+    def validate_college_input(self, college_code, college_name, old_code=None, old_name=None):
+       
+        
+        if not college_code or not college_name:
+            messagebox.showerror("Error", "All fields must be filled")
+            return False
+            
+        
+        college_code = college_code.upper()
+        college_name = college_name.title()
+        
+        
+        for existing in self.college_courses.keys():
+            existing_code, existing_name = existing.split(' - ')
+            
+           
+            if old_code and old_name:
+                if existing_code == old_code and existing_name == old_name:
+                    continue
+                    
+            
+            if college_code == existing_code:
+                messagebox.showerror("Duplicate Error", 
+                                   f"College code '{college_code}' already exists")
+                return False
+                
+            
+            if college_name.lower() == existing_name.lower():
+                messagebox.showerror("Duplicate Error",
+                                   f"College name '{college_name}' already exists")
+                return False
+                
+        return True
+
+    def validate_course_input(self, college, course_code, course_name, old_code=None, old_name=None):
+        
+        
+        if not course_code or not course_name:
+            messagebox.showerror("Error", "All fields must be filled")
+            return False
+            
+        
+        course_code = course_code.upper()
+        course_name = course_name.title()
+        
+        
+        for existing in self.college_courses[college]:
+            existing_code, existing_name = existing.split(' - ')
+            
+            
+            if old_code and old_name:
+                if existing_code == old_code and existing_name == old_name:
+                    continue
+                    
+            
+            if course_code == existing_code:
+                messagebox.showerror("Duplicate Error",
+                                   f"Course code '{course_code}' already exists in {college}")
+                return False
+                
+            
+            if course_name.lower() == existing_name.lower():
+                messagebox.showerror("Duplicate Error",
+                                   f"Course name '{course_name}' already exists in {college}")
+                return False
+        
+        
+        for other_college, courses in self.college_courses.items():
+            if other_college != college:
+                for course in courses:
+                    existing_code, existing_name = course.split(' - ')
+                    
+                    
+                    if course_code == existing_code:
+                        messagebox.showerror("Duplicate Error",
+                                           f"Course code '{course_code}' already exists in {other_college}")
+                        return False
+                    
+                    
+                    if course_name.lower() == existing_name.lower():
+                        messagebox.showerror("Duplicate Error",
+                                           f"Course name '{course_name}' already exists in {other_college}")
+                        return False
+                        
+        return True
 
 def is_duplicate_id(idno, current_item=None):
     if current_item:
@@ -92,33 +718,30 @@ def is_duplicate_id(idno, current_item=None):
 
 
 def refresh_table():
-    global all_students
-    
+    global current_page, total_pages
     table.delete(*table.get_children())
     
-    search_text = entry_search.get().strip().lower()
+    filtered_students = get_filtered_students()
+    total_pages = max(1, (len(filtered_students) + rows_per_page - 1) // rows_per_page)
     
-    if search_text:
-        for student in all_students:
-            gender = student[4].lower()
-            gender_match = False
-            
-            
-            if search_text in ["male", "female", "others"]:
-                gender_match = search_text == gender.lower()
-                
-                
-                if gender_match:
-                    table.insert("", "end", values=student)
-            else:
-                
-                if any(search_text in str(student[i]).lower() for i in range(len(student))):
-                    table.insert("", "end", values=student)
-    else:
-        
-        for student in all_students:
-            table.insert("", "end", values=student)
     
+    current_page = min(current_page, total_pages)
+    
+    
+    start_idx = (current_page - 1) * rows_per_page
+    end_idx = min(start_idx + rows_per_page, len(filtered_students))
+    
+    
+    for student in filtered_students[start_idx:end_idx]:
+        table.insert("", "end", values=student)
+    
+    
+    total_students = len(filtered_students)
+    page_info.config(text=f"Page {current_page} of {total_pages} | Total: {total_students} students")
+    btn_first.config(state="normal" if current_page > 1 else "disabled")
+    btn_prev.config(state="normal" if current_page > 1 else "disabled")
+    btn_next.config(state="normal" if current_page < total_pages else "disabled")
+    btn_last.config(state="normal" if current_page < total_pages else "disabled")
     
     if sort_options.get():
         sort_table()
@@ -189,6 +812,9 @@ def add_student():
     new_window.geometry("400x300")
     new_window.title("Add New Student")
     new_window.config(bg="#800000")
+    
+    new_window.transient(window)
+    new_window.grab_set()
 
     vcmd_char = new_window.register(validate_char)
     vcmd_int = new_window.register(validate_int)
@@ -196,7 +822,7 @@ def add_student():
     
     label_idno = tk.Label(new_window, text="ID#:", bg="#800000", fg="white")
     label_idno.grid(row=1, column=0)
-    label_idno = tk.Label(new_window, text="(e.g., YYYY-NNNN)", bg="#800000", fg="white")
+    label_idno = tk.Label(new_window, text="(ex. YYYY-NNNN)", bg="#800000", fg="white")
     label_idno.grid(row=1, column=2, padx=(0, 20))
     entry_idno = tk.Entry(new_window, validate="key", validatecommand=(vcmd_idno, '%P'))
     entry_idno.grid(row=1, column=1)
@@ -348,6 +974,9 @@ def update_student():
     update_window.title("Update Student")
     update_window.config(bg="#800000")
     
+    update_window.transient(window)
+    update_window.grab_set()
+    
     vcmd_char = update_window.register(lambda current, inserted: validate_char(current, inserted))
     vcmd_int = update_window.register(validate_int)
     vcmd_idno = update_window.register(validate_idno)
@@ -425,25 +1054,65 @@ def update_student():
 def sort_table():
     sort_by = sort_options.get()
     if not sort_by:
-        return  
-    
-    
-    col_index = columns.index(sort_by)
-    
-    
-    children = table.get_children('')
-    if not children:
         return
     
-    data = [(table.set(child, col_index), child) for child in children]
+    global all_students, current_page
     
-    if sort_by == "Age":
-        data = [(int(val) if val.isdigit() else val, child) for val, child in data]
+    if sort_by == "Original Order":
+        
+        try:
+            with open(CSV_FILE, 'r') as csvfile:
+                reader = csv.reader(csvfile)
+                next(reader)  
+                original_students = []
+                for row in reader:
+                    if not row or row[0] == "Colleges and Courses":
+                        break
+                    if len(row) == len(columns):
+                        original_students.append(tuple(row))
+                all_students = original_students
+        except Exception as e:
+            print(f"Error restoring original order: {e}")
+    else:
+        col_index = columns.index(sort_by)
+        if sort_by == "Age":
+            all_students = sorted(all_students, 
+                key=lambda x: int(x[col_index]) if x[col_index].isdigit() else x[col_index])
+        else:
+            all_students = sorted(all_students, 
+                key=lambda x: str(x[col_index]))
     
-    data.sort()
     
-    for index, (_, child) in enumerate(data):
-        table.move(child, '', index)
+    display_current_page()
+
+
+def display_current_page():
+    global current_page, total_pages
+    
+    
+    table.delete(*table.get_children())
+    
+    
+    filtered_students = get_filtered_students()
+    total_pages = max(1, (len(filtered_students) + rows_per_page - 1) // rows_per_page)
+    current_page = min(current_page, total_pages)
+    
+    
+    start_idx = (current_page - 1) * rows_per_page
+    end_idx = min(start_idx + rows_per_page, len(filtered_students))
+    
+    
+    for student in filtered_students[start_idx:end_idx]:
+        table.insert("", "end", values=student)
+    
+    
+    page_info.config(text=f"Page {current_page} of {total_pages} | Total: {len(filtered_students)} students")
+    
+    
+    btn_first.config(state="normal" if current_page > 1 else "disabled")
+    btn_prev.config(state="normal" if current_page > 1 else "disabled")
+    btn_next.config(state="normal" if current_page < total_pages else "disabled")
+    btn_last.config(state="normal" if current_page < total_pages else "disabled")
 
 
 def clear_table():
@@ -470,8 +1139,42 @@ def clear_table():
 
 all_students = []
 
+current_page = 1
+rows_per_page = 20
+total_pages = 1
+
+def calculate_total_pages():
+    global total_pages
+    filtered_students = get_filtered_students()
+    total_pages = max(1, (len(filtered_students) + rows_per_page - 1) // rows_per_page)
+    return total_pages
+
+def get_filtered_students():
+    search_text = entry_search.get().strip().lower()
+    if not search_text:
+        return all_students
+    
+    filtered = []
+    for student in all_students:
+        
+        if search_text in ["male", "female", "others"]:
+            if student[4].lower() == search_text:
+                filtered.append(student)
+       
+        elif any(search_text in str(val).lower() for val in student):
+            filtered.append(student)
+            
+    return filtered
+
+def go_to_page(page_num):
+    global current_page
+    if 1 <= page_num <= total_pages:
+        current_page = page_num
+        refresh_table()
 
 def search_student(event=None):
+    global current_page
+    current_page = 1  
     refresh_table()  
 
 
@@ -487,21 +1190,32 @@ def save_to_csv():
 
 def load_initial_data():
     global all_students
-    all_students = []  
+    all_students = []
     
-    if os.path.exists(CSV_FILE):
-        try:
-            with open(CSV_FILE, 'r') as csvfile:
-                reader = csv.reader(csvfile)
-                next(reader)  
-                for row in reader:
-                    if len(row) == len(columns):  
-                        all_students.append(tuple(row))
+    if not os.path.exists(CSV_FILE):
+        with open(CSV_FILE, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(columns)
+        return
+    
+    try:
+        with open(CSV_FILE, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            header = next(reader)
             
-            
-            refresh_table()
-        except Exception as e:
-            messagebox.showerror("Error", f"Failed to load data: {str(e)}")
+            for row in reader:
+                if not row:
+                    continue
+                if row[0] == "Colleges and Courses":
+                    break
+                if len(row) == len(columns):
+                    all_students.append(tuple(row))
+        
+        refresh_table()
+        
+    except Exception as e:
+        print(f"Load error: {e}")
+        messagebox.showerror("Load Error", f"Failed to load data: {str(e)}")
 
 def validate_idno(char):
     return re.match(r'^\d{0,4}(-\d{0,4})?$', char) is not None
@@ -535,13 +1249,22 @@ entry_search.grid(row=4, column=0, pady=5)
 
 label_sort = tk.Label(control_frame, text="Sort By:",bg="#800000", fg="white")
 label_sort.grid(row=5, column=0, pady=5)
-sort_options = ttk.Combobox(control_frame, values=("First Name","Last Name","Age", "Gender","ID#", "Year Level", "College", "Course"), state="readonly")
+sort_options = ttk.Combobox(control_frame, 
+                           values=("Original Order", "First Name", "Last Name", "Age", 
+                                 "Gender", "ID#", "Year Level", "College", "Course"), 
+                           state="readonly")
 sort_options.grid(row=6, column=0, pady=5)
 button_sort = tk.Button(control_frame, text="Sort", bg="#7d6a69", fg="white", command=sort_table)
 button_sort.grid(row=7, column=0, pady=5)
 
 button_clear = tk.Button(control_frame, text="Clear Data", bg="#7d6a69", fg="white", command=clear_table)
 button_clear.grid(row=8, column=0, pady=50)
+
+button_manage_colleges = tk.Button(control_frame, text="Manage Colleges and Courses", 
+                                 bg="#7d6a69", fg="white", 
+                                 command=lambda: CollegeCourseManager(window, college_courses, 
+                                                                    CSV_FILE))
+button_manage_colleges.grid(row=9, column=0, pady=5)
 
 
 table_frame = tk.Frame(window)
@@ -568,13 +1291,29 @@ for col in columns:
     table.column(col, width=100, stretch=True)
 
 
-scrollbar = ttk.Scrollbar(table_frame, orient="vertical", command=table.yview)
-table.configure(yscrollcommand=scrollbar.set)
-scrollbar.grid(row=0, column=1, sticky="ns")
-
-
 table.grid(row=0, column=0, sticky="nsew")
 
+pagination_frame = tk.Frame(table_frame, bg="#800000")
+pagination_frame.grid(row=1, column=0, sticky="ew", pady=5)
+
+btn_first = tk.Button(pagination_frame, text="<<", command=lambda: go_to_page(1),
+                     bg="#7d6a69", fg="white")
+btn_first.pack(side=tk.LEFT, padx=5)
+
+btn_prev = tk.Button(pagination_frame, text="<", command=lambda: go_to_page(current_page - 1),
+                    bg="#7d6a69", fg="white")
+btn_prev.pack(side=tk.LEFT, padx=5)
+
+page_info = tk.Label(pagination_frame, text="Page 1 of 1", bg="#800000", fg="white")
+page_info.pack(side=tk.LEFT, padx=10)
+
+btn_next = tk.Button(pagination_frame, text=">", command=lambda: go_to_page(current_page + 1),
+                    bg="#7d6a69", fg="white")
+btn_next.pack(side=tk.LEFT, padx=5)
+
+btn_last = tk.Button(pagination_frame, text=">>", command=lambda: go_to_page(total_pages),
+                    bg="#7d6a69", fg="white")
+btn_last.pack(side=tk.LEFT, padx=5)
 
 table_frame.grid_columnconfigure(0, weight=1)
 table_frame.grid_rowconfigure(0, weight=1)
@@ -586,5 +1325,25 @@ def clear_selection(event):
         table.selection_remove(item)
 
 table.bind("<Double-1>", clear_selection)
+
+def adjust_rows_per_page(event=None):
+    global rows_per_page, current_page
+    
+    
+    table_height = table_frame.winfo_height()
+    row_height = 25  
+    header_height = 25  
+    pagination_height = 35  
+    
+    
+    available_height = table_height - header_height - pagination_height
+    new_rows_per_page = max(1, available_height // row_height)
+    
+    
+    if new_rows_per_page != rows_per_page:
+        rows_per_page = new_rows_per_page
+        refresh_table()
+
+window.bind("<Configure>", adjust_rows_per_page)
 
 window.mainloop()
