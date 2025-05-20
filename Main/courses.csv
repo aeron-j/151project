@@ -22,16 +22,6 @@ BSBIO-ZOO,Bachelor Of Science In Biology (Zoology),CSM
 BSBIO-MAR,Bachelor Of Science In Biology (Marine),CSM
 BSBIO-GEN,Bachelor Of Science In Biology (General),CSM
 BSSTAT,Bachelor Of Science In Statistics,CSM
-BEED-SCIMATH,Bachelor Of Elementary Education (Science And Mathematics),CED
-BEED-LANG,Bachelor Of Elementary Education (Language Education),CED
-BSED-BIO,Bachelor Of Secondary Education (Biology),CED
-BSED-CHEM,Bachelor Of Secondary Education (Chemistry),CED
-BSED-PHYS,Bachelor Of Secondary Education (Physics),CED
-BSED-MATH,Bachelor Of Secondary Education (Mathematics),CED
-BTLED-HE,Bachelor Of Technology And Livelihood Education (Home Economics),CED
-BTLED-IA,Bachelor Of Technology And Livelihood Education (Industrial Arts),CED
-BTVTED-DT,Bachelor Of Technical-Vocational Teacher Education (Drafting Technology),CED
-BPED,Bachelor Of Physical Education,CED
 BSN,Bachelor Of Science In Nursing,CHS
 DCET,Diploma In Chemical Engineering Technology,COE
 BSCERE,Bachelor Of Science In Ceramic Engineering,COE
@@ -48,3 +38,14 @@ BSCA,Bachelor of Science In Computer Applications,CCS
 BSIS,Bachelor Of Science In Information Systems,CCS
 BSIT,Bachelor Of Science In Information Technology,CCS
 BSCS,Bachelor Of Science In Computer Science,CCS
+ASDA,Fsd,CCS
+BEED-SCIMATH,Bachelor Of Elementary Education (Science And Mathematics),CED
+BEED-LANG,Bachelor Of Elementary Education (Language Education),CED
+BSED-BIO,Bachelor Of Secondary Education (Biology),CED
+BSED-CHEM,Bachelor Of Secondary Education (Chemistry),CED
+BSED-PHYS,Bachelor Of Secondary Education (Physics),CED
+BSED-MATH,Bachelor Of Secondary Education (Mathematics),CED
+BTLED-HE,Bachelor Of Technology And Livelihood Education (Home Economics),CED
+BTLED-IA,Bachelor Of Technology And Livelihood Education (Industrial Arts),CED
+BTVTED-DT,Bachelor Of Technical-Vocational Teacher Education (Drafting Technology),CED
+BPED,Bachelor Of Physical Education,CED

@@ -737,8 +737,12 @@ class CourseManager:
         try:
             courses = []
             
+            selected_college = self.college_filter_var.get()
             # Process all colleges including orphaned courses
             for college_key, course_list in self.college_courses.items():
+            # Skip if we're filtering and this isn't the selected college
+                if selected_college != "All Colleges" and college_key != selected_college:
+                    continue
                 for course in course_list:
                     parts = course.split(" - ", 1)
                     if len(parts) == 2:
@@ -1031,13 +1035,16 @@ class CourseManager:
         global all_students
         updated_students = []
         for student in all_students:
-            if len(student) > 7 and student[7] == course_full:
-                student = list(student)
-                student[7] = "N/A"  # Reset course to N/A
-                if len(student) > 6 and student[6] == college_code:
-                    student[6] = "N/A"  # Reset college if it matches
-                student = tuple(student)
-            updated_students.append(student)
+            if len(student) >= 8:  # Ensure student has course field
+                student_list = list(student)
+                # Check if course matches either full name or just code
+                if (student_list[7] == course_full or 
+                    (isinstance(student_list[7], str) and 
+                    student_list[7].startswith(f"{course_code} -"))):
+                    student_list[7] = "N/A"  # Reset course to N/A
+                updated_students.append(tuple(student_list))
+            else:
+                updated_students.append(student)  # Keep invalid records as-is
         all_students = updated_students
 
         # 3. Save changes to both files
@@ -1878,8 +1885,6 @@ class StudentFilterSort:
             if selected_gender != "All Genders":
                 filtered_students = [s for s in filtered_students 
                                    if s[4] == selected_gender]
-            
-            
             
             current_page = 1
             refresh_table(filtered_students)
