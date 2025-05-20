@@ -1,101 +1,105 @@
-ID#,First Name,Last Name,Age,Gender,Year Level,College,Course
-2322-3242,ANDERSON,DAGODA,20,Male,2nd,CSM - College Of Science And Mathematics,BSSTAT - Bachelor Of Science In Statistics
-2233-3434,FELIX,DELAYGO,33,Male,2nd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
-2023-2323,BIANCA,BLAZE,22,Female,1st,CSM - College Of Science And Mathematics,BSPHYS - Bachelor Of Science In Physics
-2312-2322,SALLY,FELLER,22,Male,4th,CED - College Of Education,BSED-CHEM - Bachelor Of Secondary Education (Chemistry)
-2023-5001,JOHN,SMITH,19,Male,1st,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
-2023-5002,MARY,JOHNSON,20,Female,2nd,CSM - College Of Science And Mathematics,BSMATH - Bachelor Of Science In Mathematics
-2023-5003,JAMES,WILLIAMS,21,Male,3rd,CCS - College Of Computer Studies,BSIT - Bachelor Of Science In Information Technology
-2023-5004,EMMA,BROWN,19,Female,1st,CED - College Of Education,BSED-MATH - Bachelor Of Secondary Education (Mathematics)
-2023-5005,MICHAEL,JONES,20,Male,2nd,CSM - College Of Science And Mathematics,BSCHEM - Bachelor Of Science In Chemistry
-2023-5006,SARAH,GARCIA,21,Female,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
-2023-5007,DAVID,MILLER,19,Male,1st,CED - College Of Education,BSED-SCI - Bachelor Of Secondary Education (Science)
-2023-5008,JENNIFER,DAVIS,20,Female,2nd,CSM - College Of Science And Mathematics,BSBIO - Bachelor Of Science In Biology
-2023-5009,ROBERT,RODRIGUEZ,21,Male,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
-2023-5010,LISA,MARTINEZ,19,Female,1st,CED - College Of Education,BSED-ENG - Bachelor Of Secondary Education (English)
-2023-5011,WILLIAM,HERNANDEZ,20,Male,2nd,CSM - College Of Science And Mathematics,BSSTAT - Bachelor Of Science In Statistics
-2023-5013,THOMAS,GONZALEZ,19,Male,1st,CED - College Of Education,BSED-FIL - Bachelor Of Secondary Education (Filipino)
-2023-5014,ASHLEY,WILSON,20,Female,2nd,CSM - College Of Science And Mathematics,BSPHYS - Bachelor Of Science In Physics
-2023-5015,DANIEL,ANDERSON,21,Male,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
-2023-5016,ELIZABETH,TAYLOR,19,Female,1st,CED - College Of Education,BSED-SOC - Bachelor Of Secondary Education (Social Studies)
-2023-5017,CHRISTOPHER,MOORE,20,Male,2nd,CSM - College Of Science And Mathematics,BSENVSCI - Bachelor Of Science In Environmental Science
-2023-5018,MICHELLE,LEE,21,Female,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
-2023-5019,JOSEPH,WHITE,19,Male,1st,CED - College Of Education,BSED-MATH - Bachelor Of Secondary Education (Mathematics)
-2023-5020,NICOLE,JACKSON,20,Female,2nd,CSM - College Of Science And Mathematics,BSMATH - Bachelor Of Science In Mathematics
-2023-5021,KEVIN,HARRIS,21,Male,3rd,CCS - College Of Computer Studies,BSIT - Bachelor Of Science In Information Technology
-2023-5022,AMANDA,MARTIN,19,Female,1st,CED - College Of Education,BSED-SCI - Bachelor Of Secondary Education (Science)
-2023-5023,STEVEN,THOMPSON,20,Male,2nd,CSM - College Of Science And Mathematics,BSCHEM - Bachelor Of Science In Chemistry
-2023-5024,RACHEL,GARCIA,21,Female,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
-2023-5025,BRIAN,MARTINEZ,19,Male,1st,CED - College Of Education,BSED-ENG - Bachelor Of Secondary Education (English)
-2023-5026,STEPHANIE,ROBINSON,20,Female,2nd,CSM - College Of Science And Mathematics,BSBIO - Bachelor Of Science In Biology
-2023-5027,GEORGE,CLARK,21,Male,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
-2023-5028,LAUREN,RODRIGUEZ,19,Female,1st,CED - College Of Education,BSED-FIL - Bachelor Of Secondary Education (Filipino)
-2023-5029,EDWARD,LEWIS,20,Male,2nd,CSM - College Of Science And Mathematics,BSSTAT - Bachelor Of Science In Statistics
-2023-5030,REBECCA,LEE,21,Female,3rd,CCS - College Of Computer Studies,BSIT - Bachelor Of Science In Information Technology
-2023-5031,RICHARD,WALKER,19,Male,1st,CED - College Of Education,BSED-SOC - Bachelor Of Secondary Education (Social Studies)
-2023-5032,EMILY,HALL,20,Female,2nd,CSM - College Of Science And Mathematics,BSPHYS - Bachelor Of Science In Physics
-2023-5033,JASON,ALLEN,21,Male,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
-2023-5034,MELISSA,YOUNG,19,Female,1st,CED - College Of Education,BSED-MATH - Bachelor Of Secondary Education (Mathematics)
-2023-5035,JUSTIN,KING,20,Male,2nd,CSM - College Of Science And Mathematics,BSENVSCI - Bachelor Of Science In Environmental Science
-2023-5036,HEATHER,WRIGHT,21,Female,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
-2023-5037,RYAN,LOPEZ,19,Male,1st,CED - College Of Education,BSED-SCI - Bachelor Of Secondary Education (Science)
-2023-5038,ANGELA,HILL,20,Female,2nd,CSM - College Of Science And Mathematics,BSMATH - Bachelor Of Science In Mathematics
-2023-5039,BRANDON,SCOTT,21,Male,3rd,CCS - College Of Computer Studies,BSIT - Bachelor Of Science In Information Technology
-2023-5040,LAURA,GREEN,19,Female,1st,CED - College Of Education,BSED-ENG - Bachelor Of Secondary Education (English)
-2023-5041,SCOTT,ADAMS,20,Male,2nd,CSM - College Of Science And Mathematics,BSCHEM - Bachelor Of Science In Chemistry
-2023-5042,CHRISTINA,BAKER,21,Female,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
-2023-5043,TIMOTHY,NELSON,19,Male,1st,CED - College Of Education,BSED-FIL - Bachelor Of Secondary Education (Filipino)
-2023-5044,AMBER,CARTER,20,Female,2nd,CSM - College Of Science And Mathematics,BSBIO - Bachelor Of Science In Biology
-2023-5045,GREGORY,MITCHELL,21,Male,3rd,COE - College Of Engineering,BSCPE - Bachelor Of Science In Computer Engineering
-2023-5046,DANIELLE,PEREZ,19,Female,1st,CED - College Of Education,BSED-SOC - Bachelor Of Secondary Education (Social Studies)
-2023-5047,MARK,ROBERTS,20,Male,2nd,CSM - College Of Science And Mathematics,BSSTAT - Bachelor Of Science In Statistics
-2023-5048,BRITTANY,TURNER,21,Female,3rd,CCS - College Of Computer Studies,BSIT - Bachelor Of Science In Information Technology
-2023-5049,ERIC,PHILLIPS,19,Male,1st,CED - College Of Education,BSED-MATH - Bachelor Of Secondary Education (Mathematics)
-2023-5050,VICTORIA,CAMPBELL,20,Female,2nd,CSM - College Of Science And Mathematics,BSPHYS - Bachelor Of Science In Physics
-2025-2342,ASDASD,SAFAA,22,Others,5+,CEBA - College Of Economics Business And Accountancy,BS-ENT - Bachelor Of Science In Entrepreneurship
-2021-2342,GREGON,ASDASD,33,Male,2nd,CED - College Of Education,BPED - Bachelor Of Physical Education
+ID,First Name,Last Name,Email,Phone,Year Level,College,Course
+2023-5033,JASON,ALLEN,21,Male,3rd,CCS - College Of Computer Studies,BSIT - Bachelor Of Science In Information Technology
+2023-5015,DANIEL,ANDERSON,21,Male,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
+2023-5042,CHRISTINA,BAKER,21,Female,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
+2023-5089,GABRIEL,BRADLEY,21,Male,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
+2023-5027,GEORGE,CLARK,21,Male,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
 2023-5051,PETER,COLLINS,19,Male,1st,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
-2023-5052,SOPHIA,MORGAN,20,Female,2nd,CSM - College Of Science And Mathematics,BSMATH - Bachelor Of Science In Mathematics
-2023-5053,ALEXANDER,COOPER,21,Male,3rd,CCS - College Of Computer Studies,BSIT - Bachelor Of Science In Information Technology
-2023-5054,OLIVIA,MURPHY,19,Female,1st,CED - College Of Education,BSED-MATH - Bachelor Of Secondary Education (Mathematics)
-2023-5055,ANDREW,ROSS,20,Male,2nd,CSM - College Of Science And Mathematics,BSCHEM - Bachelor Of Science In Chemistry
-2023-5056,SAMANTHA,POWELL,21,Female,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
-2023-5057,BENJAMIN,WOOD,19,Male,1st,CED - College Of Education,BSED-SCI - Bachelor Of Secondary Education (Science)
-2023-5058,KATHERINE,STEWART,20,Female,2nd,CSM - College Of Science And Mathematics,BSBIO - Bachelor Of Science In Biology
-2023-5059,NATHAN,MORRIS,21,Male,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
-2023-5060,HANNAH,SANDERS,19,Female,1st,CED - College Of Education,BSED-ENG - Bachelor Of Secondary Education (English)
-2023-5061,MATTHEW,PRICE,20,Male,2nd,CSM - College Of Science And Mathematics,BSSTAT - Bachelor Of Science In Statistics
-2023-5062,ISABELLA,HUGHES,21,Female,3rd,CCS - College Of Computer Studies,BSIT - Bachelor Of Science In Information Technology
-2023-5063,ETHAN,FOSTER,19,Male,1st,CED - College Of Education,BSED-FIL - Bachelor Of Secondary Education (Filipino)
-2023-5064,MADISON,BUTLER,20,Female,2nd,CSM - College Of Science And Mathematics,BSPHYS - Bachelor Of Science In Physics
-2023-5065,JACOB,SIMMONS,21,Male,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
-2023-5066,EMILY,RUSSELL,19,Female,1st,CED - College Of Education,BSED-SOC - Bachelor Of Secondary Education (Social Studies)
-2023-5067,WILLIAM,HAYES,20,Male,2nd,CSM - College Of Science And Mathematics,BSENVSCI - Bachelor Of Science In Environmental Science
-2023-5068,AVA,FISHER,21,Female,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
-2023-5069,ALEXANDER,STEVENS,19,Male,1st,CED - College Of Education,BSED-MATH - Bachelor Of Secondary Education (Mathematics)
-2023-5070,MIA,MURRAY,20,Female,2nd,CSM - College Of Science And Mathematics,BSMATH - Bachelor Of Science In Mathematics
-2023-5071,DANIEL,FORD,21,Male,3rd,CCS - College Of Computer Studies,BSIT - Bachelor Of Science In Information Technology
-2023-5072,ABIGAIL,MARSHALL,19,Female,1st,CED - College Of Education,BSED-SCI - Bachelor Of Secondary Education (Science)
-2023-5073,JOSEPH,OWENS,20,Male,2nd,CSM - College Of Science And Mathematics,BSCHEM - Bachelor Of Science In Chemistry
-2023-5074,ELIZABETH,MCDONALD,21,Female,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
-2023-5075,CHRISTOPHER,RUSSELL,19,Male,1st,CED - College Of Education,BSED-ENG - Bachelor Of Secondary Education (English)
-2023-5076,SOFIA,BENNETT,20,Female,2nd,CSM - College Of Science And Mathematics,BSBIO - Bachelor Of Science In Biology
-2023-5077,DAVID,GRAY,21,Male,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
-2023-5078,CHARLOTTE,HARRISON,19,Female,1st,CED - College Of Education,BSED-FIL - Bachelor Of Secondary Education (Filipino)
-2023-5079,JAMES,GIBSON,20,Male,2nd,CSM - College Of Science And Mathematics,BSSTAT - Bachelor Of Science In Statistics
-2023-5080,SCARLETT,MCDONALD,21,Female,3rd,CCS - College Of Computer Studies,BSIT - Bachelor Of Science In Information Technology
-2023-5081,HENRY,JOHNSTON,19,Male,1st,CED - College Of Education,BSED-SOC - Bachelor Of Secondary Education (Social Studies)
-2023-5082,VICTORIA,SPENCER,20,Female,2nd,CSM - College Of Science And Mathematics,BSPHYS - Bachelor Of Science In Physics
-2023-5083,SEBASTIAN,GRANT,21,Male,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
-2023-5084,GRACE,HAWKINS,19,Female,1st,CED - College Of Education,BSED-MATH - Bachelor Of Secondary Education (Mathematics)
-2023-5085,OWEN,ELLIOTT,20,Male,2nd,CSM - College Of Science And Mathematics,BSENVSCI - Bachelor Of Science In Environmental Science
+2023-5053,ALEXANDER,COOPER,21,Male,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
 2023-5086,ZOE,CRAWFORD,21,Female,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
-2023-5087,LUCAS,DOUGLAS,19,Male,1st,CED - College Of Education,BSED-SCI - Bachelor Of Secondary Education (Science)
-2023-5088,LILY,PIERCE,20,Female,2nd,CSM - College Of Science And Mathematics,BSMATH - Bachelor Of Science In Mathematics
-2023-5089,GABRIEL,BRADLEY,21,Male,3rd,CCS - College Of Computer Studies,BSIT - Bachelor Of Science In Information Technology
-2023-5090,CHLOE,KENNEDY,19,Female,1st,CED - College Of Education,BSED-ENG - Bachelor Of Secondary Education (English)
-2023-5091,JULIAN,FLEMING,20,Male,2nd,CSM - College Of Science And Mathematics,BSCHEM - Bachelor Of Science In Chemistry
-2023-5092,AUBREY,LAWSON,21,Female,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
-2023-5093,ANTHONY,NICHOLS,19,Male,1st,CED - College Of Education,BSED-FIL - Bachelor Of Secondary Education (Filipino)
-2023-5094,HANNAH,PEARSON,20,Female,2nd,CSM - College Of Science And Mathematics,BSBIO - Bachelor Of Science In Biology
+2233-3434,FELIX,DELAYGO,33,Male,2nd,CCS - College Of Computer Studies,BSCA - Bachelor of Science In Computer Applications
+2023-5068,AVA,FISHER,21,Female,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
 2023-5095,DYLAN,FLETCHER,21,Male,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
+2023-5071,DANIEL,FORD,21,Male,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
+2023-5006,SARAH,GARCIA,21,Female,3rd,CCS - College Of Computer Studies,BSCA - Bachelor of Science In Computer Applications
+2023-5024,RACHEL,GARCIA,21,Female,3rd,CCS - College Of Computer Studies,BSCA - Bachelor of Science In Computer Applications
+2023-5083,SEBASTIAN,GRANT,21,Male,3rd,CCS - College Of Computer Studies,BSIT - Bachelor Of Science In Information Technology
+2023-5077,DAVID,GRAY,21,Male,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
+2023-5021,KEVIN,HARRIS,21,Male,3rd,CCS - College Of Computer Studies,BSCA - Bachelor of Science In Computer Applications
+2023-5062,ISABELLA,HUGHES,21,Female,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
+2023-5092,AUBREY,LAWSON,21,Female,3rd,CCS - College Of Computer Studies,BSIT - Bachelor Of Science In Information Technology
+2023-5018,MICHELLE,LEE,21,Female,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
+2023-5030,REBECCA,LEE,21,Female,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
+2023-5074,ELIZABETH,MCDONALD,21,Female,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
+2023-5080,SCARLETT,MCDONALD,21,Female,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
+2023-5059,NATHAN,MORRIS,21,Male,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
+2023-5056,SAMANTHA,POWELL,21,Female,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
+2023-5009,ROBERT,RODRIGUEZ,21,Male,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
+2024-0001,CARLO,SALADAGA,69,Male,2nd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
+2023-5039,BRANDON,SCOTT,21,Male,3rd,CCS - College Of Computer Studies,BSIT - Bachelor Of Science In Information Technology
+2023-5065,JACOB,SIMMONS,21,Male,3rd,CCS - College Of Computer Studies,BSCA - Bachelor of Science In Computer Applications
+2023-5001,JOHN,SMITH,19,Male,1st,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
+2023-5048,BRITTANY,TURNER,21,Female,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
+2023-5003,JAMES,WILLIAMS,21,Male,3rd,CCS - College Of Computer Studies,BSCA - Bachelor of Science In Computer Applications
+2023-5036,HEATHER,WRIGHT,21,Female,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
+2024-3222,HENRY,CAVILL,22,Male,4th,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
+2024-5001,MICHAEL,JOHNSON,22,Male,2nd,COE - College Of Engineering,BSCERE - Bachelor Of Science In Ceramic Engineering
+2024-5002,EMMA,THOMPSON,20,Female,2nd,CCS - College Of Computer Studies,BSIT
+2024-5003,NOAH,MARTINEZ,19,Male,1st,COE - College Of Engineering,BSME - Bachelor Of Science In Mechanical Engineering
+2024-5004,OLIVIA,BROWN,21,Female,3rd,COE - College Of Engineering,BSEE - Bachelor Of Science In Electrical Engineering
+2024-5005,WILLIAM,DAVIS,20,Male,2nd,COE - College Of Engineering,BSCHE - Bachelor Of Science In Chemical Engineering
+2024-5006,SOPHIA,MILLER,22,Female,4th,COE - College Of Engineering,BSECE - Bachelor Of Science In Electronics & Communications Engineering
+2024-5007,ETHAN,WILSON,19,Male,1st,COE - College Of Engineering,BSME - Bachelor Of Science In Mechanical Engineering
+2024-5008,AMELIA,TAYLOR,21,Female,3rd,COE - College Of Engineering,BSCE - Bachelor Of Science In Civil Engineering
+2024-5009,BENJAMIN,ANDERSON,20,Male,2nd,COE - College Of Engineering,BSCPE - Bachelor Of Science In Computer Engineering
+2024-5010,CHARLOTTE,THOMAS,22,Female,4th,COE - College Of Engineering,BSENET - Bachelor Of Science In Environmental Engineering
+2024-5011,LUCAS,JACKSON,21,Male,3rd,CCS - College Of Computer Studies,BSCA - Bachelor of Science In Computer Applications
+2024-5012,LILY,WHITE,20,Female,2nd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
+2024-5013,HENRY,HARRIS,19,Male,1st,CCS - College Of Computer Studies,BSIT
+2024-5014,SOPHIA,MARTIN,22,Female,4th,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
+2024-5015,ALEXANDER,THOMPSON,20,Male,2nd,CCS - College Of Computer Studies,BSCA - Bachelor of Science In Computer Applications
+2024-5016,GRACE,GARCIA,21,Female,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
+2024-5017,SAMUEL,MARTINEZ,19,Male,1st,CCS - College Of Computer Studies,BSIT
+2024-5018,VICTORIA,ROBINSON,22,Female,4th,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
+2024-5019,MATTHEW,CLARK,20,Male,2nd,CCS - College Of Computer Studies,BSCA - Bachelor of Science In Computer Applications
+2024-5020,EVELYN,RODRIGUEZ,21,Female,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
+2024-5021,MADISON,GOMEZ,20,Female,2nd,CASS - College Of Arts And Social Sciences,BA-PSY - Bachelor Of Arts In Psychology
+2024-5022,JACKSON,LEWIS,19,Male,1st,CASS - College Of Arts And Social Sciences,BA-POLSCI - Bachelor Of Arts In Political Science
+2024-5023,HARPER,LEE,21,Female,3rd,CASS - College Of Arts And Social Sciences,BA-SOC - Bachelor Of Arts In Sociology
+2024-5024,AIDEN,WALKER,22,Male,4th,CASS - College Of Arts And Social Sciences,BA-ELS - Bachelor Of Arts In English Language Studies
+2024-5025,ABIGAIL,HALL,20,Female,2nd,CASS - College Of Arts And Social Sciences,BS-PSY - Bachelor Of Science In Psychology
+2024-5026,DAVID,ALLEN,19,Male,1st,CASS - College Of Arts And Social Sciences,BA-HIS-IH - Bachelor Of Arts In History (International History Track)
+2024-5027,ELLA,YOUNG,21,Female,3rd,CASS - College Of Arts And Social Sciences,BA-FIL - Bachelor Of Arts In Filipino
+2024-5028,JOSEPH,HERNANDEZ,22,Male,4th,CASS - College Of Arts And Social Sciences,BS-PHIL-AE - Bachelor Of Science In Philosophy
+2024-5029,SKYLAR,KING,20,Female,2nd,CASS - College Of Arts And Social Sciences,BA-LCS - Bachelor Of Arts In Literary and Cultural Studies
+2024-5030,CHRISTIAN,WRIGHT,19,Male,1st,CASS - College Of Arts And Social Sciences,BA-POLSCI - Bachelor Of Arts In Political Science
+2024-5031,PENELOPE,LOPEZ,21,Female,3rd,CEBA - College Of Economics Business And Accountancy,BS-ACC - Bachelor Of Science In Accountancy
+2024-5032,ANDREW,HILL,22,Male,4th,CEBA - College Of Economics Business And Accountancy,BSBA-BE - Bachelor Of Science In Business Administration (Business Economics)
+2024-5033,SCARLETT,SCOTT,20,Female,2nd,CEBA - College Of Economics Business And Accountancy,BSBA-MM - Bachelor Of Science In Business Administration (Marketing Management)
+2024-5034,CHRISTOPHER,GREEN,19,Male,1st,CEBA - College Of Economics Business And Accountancy,BS-ENT - Bachelor Of Science In Entrepreneurship
+2024-5035,AUDREY,ADAMS,21,Female,3rd,CEBA - College Of Economics Business And Accountancy,BSHM - Bachelor Of Science In Hospitality Management
+2024-5036,RYAN,BAKER,22,Male,4th,CEBA - College Of Economics Business And Accountancy,BS-ACC - Bachelor Of Science In Accountancy
+2024-5037,CLAIRE,NELSON,20,Female,2nd,CEBA - College Of Economics Business And Accountancy,BSBA-MM - Bachelor Of Science In Business Administration (Marketing Management)
+2024-5038,LEO,CARTER,19,Male,1st,CEBA - College Of Economics Business And Accountancy,BS-ENT - Bachelor Of Science In Entrepreneurship
+2024-5039,ZOEY,MITCHELL,21,Female,3rd,CEBA - College Of Economics Business And Accountancy,BSHM - Bachelor Of Science In Hospitality Management
+2024-5040,JAXON,PEREZ,22,Male,4th,CEBA - College Of Economics Business And Accountancy,BSBA-BE - Bachelor Of Science In Business Administration (Business Economics)
+2024-5041,LAYLA,ROBERTS,20,Female,2nd,CSM - College Of Science And Mathematics,BSMATH - Bachelor Of Science In Mathematics
+2024-5042,OWEN,TURNER,19,Male,1st,CSM - College Of Science And Mathematics,BSPHYS - Bachelor Of Science In Physics
+2024-5043,CHLOE,PHILLIPS,21,Female,3rd,CSM - College Of Science And Mathematics,BSCHEM - Bachelor Of Science In Chemistry
+2024-5044,ISAAC,CAMPBELL,22,Male,4th,CSM - College Of Science And Mathematics,BSBIO-GEN - Bachelor Of Science In Biology (General)
+2024-5045,HANNAH,PARKER,20,Female,2nd,CSM - College Of Science And Mathematics,BSSTAT - Bachelor Of Science In Statistics
+2024-5046,GAVIN,EVANS,19,Male,1st,CSM - College Of Science And Mathematics,BSBIO-MAR - Bachelor Of Science In Biology (Marine)
+2024-5047,ARIA,EDWARDS,21,Female,3rd,CSM - College Of Science And Mathematics,BSMATH - Bachelor Of Science In Mathematics
+2024-5048,JULIAN,COLLINS,22,Male,4th,CSM - College Of Science And Mathematics,BSPHYS - Bachelor Of Science In Physics
+2024-5049,RILEY,STEWART,20,Female,2nd,CSM - College Of Science And Mathematics,BSCHEM - Bachelor Of Science In Chemistry
+2024-5050,LUKE,SANCHEZ,19,Male,1st,CSM - College Of Science And Mathematics,BSBIO-ZOO - Bachelor Of Science In Biology (Zoology)
+2024-5051,ELLIE,MORRIS,21,Female,3rd,CHS - College Of Health Sciences,BSN - Bachelor Of Science In Nursing
+2024-5052,THOMAS,ROGERS,22,Male,4th,CHS - College Of Health Sciences,BSN - Bachelor Of Science In Nursing
+2024-5053,NORA,REED,20,Female,2nd,CHS - College Of Health Sciences,BSN - Bachelor Of Science In Nursing
+2024-5054,AARON,COOK,19,Male,1st,CHS - College Of Health Sciences,BSN - Bachelor Of Science In Nursing
+2024-5055,STELLA,MORGAN,21,Female,3rd,CHS - College Of Health Sciences,BSN - Bachelor Of Science In Nursing
+2024-5056,DYLAN,COOPER,22,Male,4th,CHS - College Of Health Sciences,BSN - Bachelor Of Science In Nursing
+2024-5057,LUCY,BAILEY,20,Female,2nd,CHS - College Of Health Sciences,BSN - Bachelor Of Science In Nursing
+2024-5058,LEVI,BELL,19,Male,1st,CHS - College Of Health Sciences,BSN - Bachelor Of Science In Nursing
+2024-5059,BELLA,MURPHY,21,Female,3rd,CHS - College Of Health Sciences,BSN - Bachelor Of Science In Nursing
+2024-5060,CARTER,RIVERA,22,Male,4th,CHS - College Of Health Sciences,BSN - Bachelor Of Science In Nursing
+2024-5061,MAYA,HOWARD,20,Female,2nd,CED - College Of Education,BEED-LANG - Bachelor Of Elementary Education (Language Education)
+2024-5062,LIAM,LONG,19,Male,1st,CED - College Of Education,BSED-MATH - Bachelor Of Secondary Education (Mathematics)
+2024-5063,MILA,DIAZ,21,Female,3rd,CED - College Of Education,BSED-BIO - Bachelor Of Secondary Education (Biology)
+2024-5064,CONNOR,HUGHES,22,Male,4th,CED - College Of Education,BSED-PHYS - Bachelor Of Secondary Education (Physics)
+2024-5065,EMILY,FOSTER,20,Female,2nd,CED - College Of Education,BEED-SCIMATH - Bachelor Of Elementary Education (Science And Mathematics)
+2024-5066,CALEB,PRICE,19,Male,1st,CED - College Of Education,BPED - Bachelor Of Physical Education
+2024-5067,CAMILA,ROSS,21,Female,3rd,CED - College Of Education,BTLED-HE - Bachelor Of Technology And Livelihood Education (Home Economics)
+2024-5068,COLTON,MYERS,22,Male,4th,CED - College Of Education,BTLED-IA - Bachelor Of Technology And Livelihood Education (Industrial Arts)
+2024-5069,ARIANA,POWELL,20,Female,2nd,CED - College Of Education,BSED-CHEM - Bachelor Of Secondary Education (Chemistry)
+2024-5070,NICHOLAS,PERRY,19,Male,1st,CED - College Of Education,BTVTED-DT - Bachelor Of Technical-Vocational Teacher Education (Drafting Technology)
