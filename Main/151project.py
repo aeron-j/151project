@@ -925,11 +925,11 @@ class CourseManager:
                     return
 
             # Get college codes for updating student records
-            old_college_code = full_college_key.split(' - ')[0] if ' - ' in full_college_key else full_college_key
+            old_college_code = "N/A" if full_college_key == "_orphaned_" else full_college_key.split(' - ')[0]
             new_college_code = new_college.split(' - ')[0] if ' - ' in new_college else new_college
             
             # Update course in college structure
-            if old_course in self.college_courses[full_college_key]:
+            if old_course in self.college_courses.get(full_college_key, []):
                 self.college_courses[full_college_key].remove(old_course)
                 
             self.college_courses[new_college].append(new_course)
@@ -986,21 +986,24 @@ class CourseManager:
             )
             
             if needs_update:
-                # Update course to new full name
+            # Update course to new full name
                 student_list[7] = new_course if isinstance(new_course, str) else ""
                 
-                # Update college if it matches the old college code
-                if student_college_code == old_college_code:
-                    if isinstance(new_college_code, str):
-                        # Find the full college name in college_courses
-                        full_college_name = next(
-                            (college for college in self.college_courses 
-                            if college.startswith(f"{new_college_code} - ")),
-                            new_college_code  # Fallback to just code if not found
-                        )
-                        student_list[6] = full_college_name
-                    
+                # Update college if it matches the old college code or was N/A
+                student_college = student_list[6] if len(student_list) > 6 else ""
+                student_college_code = student_college.split(' - ')[0] if isinstance(student_college, str) and ' - ' in student_college else student_college
+                
+                if student_college_code == old_college_code or student_college == "N/A":
+                    # Find the full college name in college_courses
+                    full_college_name = next(
+                        (college for college in self.college_courses 
+                        if college.startswith(f"{new_college_code} - ")),
+                        new_college_code  # Fallback to just code if not found
+                    )
+                    student_list[6] = full_college_name
+                
             updated_students.append(tuple(student_list))
+
         
         all_students = updated_students
         save_students_to_csv()
@@ -1911,7 +1914,10 @@ class StudentFilterSort:
             print(f"Error restoring original data: {e}")
     
     def apply_sort(self):
-        global filtered_students
+        global all_students, filtered_students
+
+        if 'filtered_students' not in globals():
+            filtered_students = list(all_students)
 
         sort_by = self.primary_sort.get()
         reverse = self.sort_order.get() == "Descending"
