@@ -1,4 +1,4 @@
-ID,First Name,Last Name,Email,Phone,Year Level,College,Course
+ID#,First Name,Last Name,Age,Gender,Year Level,College,Course
 2023-5033,JASON,ALLEN,21,Male,3rd,CCS - College Of Computer Studies,BSIT - Bachelor Of Science In Information Technology
 2023-5015,DANIEL,ANDERSON,21,Male,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
 2023-5042,CHRISTINA,BAKER,21,Female,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
@@ -25,7 +25,6 @@ ID,First Name,Last Name,Email,Phone,Year Level,College,Course
 2023-5059,NATHAN,MORRIS,21,Male,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
 2023-5056,SAMANTHA,POWELL,21,Female,3rd,CCS - College Of Computer Studies,BSIS - Bachelor Of Science In Information Systems
 2023-5009,ROBERT,RODRIGUEZ,21,Male,3rd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
-2024-0001,CARLO,SALADAGA,69,Male,2nd,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
 2023-5039,BRANDON,SCOTT,21,Male,3rd,CCS - College Of Computer Studies,BSIT - Bachelor Of Science In Information Technology
 2023-5065,JACOB,SIMMONS,21,Male,3rd,CCS - College Of Computer Studies,BSCA - Bachelor of Science In Computer Applications
 2023-5001,JOHN,SMITH,19,Male,1st,CCS - College Of Computer Studies,BSCS - Bachelor Of Science In Computer Science
@@ -72,7 +71,7 @@ ID,First Name,Last Name,Email,Phone,Year Level,College,Course
 2024-5037,CLAIRE,NELSON,20,Female,2nd,CEBA - College Of Economics Business And Accountancy,BSBA-MM - Bachelor Of Science In Business Administration (Marketing Management)
 2024-5038,LEO,CARTER,19,Male,1st,CEBA - College Of Economics Business And Accountancy,BS-ENT - Bachelor Of Science In Entrepreneurship
 2024-5039,ZOEY,MITCHELL,21,Female,3rd,CEBA - College Of Economics Business And Accountancy,BSHM - Bachelor Of Science In Hospitality Management
-2024-5040,JAXON,PEREZ,22,Male,4th,CEBA - College Of Economics Business And Accountancy,BSBA-BE - Bachelor Of Science In Business Administration (Business Economics)
+2024-5040,JAXON,PEREZ,22,Male,4th,N/A,N/A
 2024-5041,LAYLA,ROBERTS,20,Female,2nd,CSM - College Of Science And Mathematics,BSMATH - Bachelor Of Science In Mathematics
 2024-5042,OWEN,TURNER,19,Male,1st,CSM - College Of Science And Mathematics,BSPHYS - Bachelor Of Science In Physics
 2024-5043,CHLOE,PHILLIPS,21,Female,3rd,CSM - College Of Science And Mathematics,BSCHEM - Bachelor Of Science In Chemistry
@@ -103,4 +102,3 @@ ID,First Name,Last Name,Email,Phone,Year Level,College,Course
 2024-5068,COLTON,MYERS,22,Male,4th,CED - College Of Education,BTLED-IA - Bachelor Of Technology And Livelihood Education (Industrial Arts)
 2024-5069,ARIANA,POWELL,20,Female,2nd,CED - College Of Education,BSED-CHEM - Bachelor Of Secondary Education (Chemistry)
 2024-5070,NICHOLAS,PERRY,19,Male,1st,CED - College Of Education,BTVTED-DT - Bachelor Of Technical-Vocational Teacher Education (Drafting Technology)
-2021-4564,SDFSD,SDFSD,21,Male,1st,N/A,ASDA - Fsd

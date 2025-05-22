@@ -16,19 +16,18 @@ window.title("Student Data")
 
 college_courses = {}
 all_students = []
-displayed_students = all_students.copy() #
+displayed_students = all_students.copy() 
 
 def load_college_courses_from_csv():
     global college_courses
     college_courses.clear()
-    college_courses["_orphaned_"] = []  # Ensure orphaned list exists
+    college_courses["_orphaned_"] = []  
     
     try:
-        # Load colleges
         if os.path.exists(COLLEGE_CSV):
             with open(COLLEGE_CSV, 'r') as csvfile:
                 reader = csv.reader(csvfile)
-                next(reader)  # Skip header
+                next(reader)  
                 for row in reader:
                     if row and len(row) >= 2:
                         code = row[0]
@@ -36,11 +35,11 @@ def load_college_courses_from_csv():
                         college_key = f"{code} - {name}"
                         college_courses[college_key] = []
 
-        # Load courses - PROPERLY handle orphaned courses
+        
         if os.path.exists(COURSE_CSV):
             with open(COURSE_CSV, 'r') as csvfile:
                 reader = csv.reader(csvfile)
-                next(reader)  # Skip header
+                next(reader)  
                 for row in reader:
                     if row and len(row) >= 3:
                         course_code = row[0]
@@ -421,19 +420,19 @@ class CollegeManager:
                     messagebox.showerror("Duplicate", f"A college named '{new_name}' already exists.")
                     return
 
-            # Update student records first
+            
             self.update_student_records_college(old_college, new_college)
             
-            # Then update the college in the courses structure
+            
             if old_college in self.college_courses:
                 courses = self.college_courses.pop(old_college, [])
                 self.college_courses[new_college] = courses
                 
-            # Save changes
+            
             self.save_colleges_to_csv()
             save_students_to_csv()
             
-            # Refresh displays
+            
             load_college_courses_from_csv()
             self.college_courses = college_courses
             self.refresh_table()
@@ -453,7 +452,7 @@ class CollegeManager:
     def update_student_records_college(self, old_college, new_college):
         global all_students
         
-        # Get both full name and code versions for matching
+        
         old_college_code = old_college.split(' - ')[0] if ' - ' in old_college else old_college
         new_college_code = new_college.split(' - ')[0] if ' - ' in new_college else new_college
         new_college_name = new_college.split(' - ')[1] if ' - ' in new_college else ""
@@ -463,13 +462,13 @@ class CollegeManager:
             if len(student_list) >= 7:
                 student_college = student_list[6]
                 
-                # Check both full college name and just the code
+                
                 if (student_college == old_college or 
                     (isinstance(student_college, str) and 
                     (student_college.startswith(old_college_code + ' -') or 
                     student_college == old_college_code))):
                     
-                    # Update to full college name if available, otherwise just code
+                    
                     if new_college_name:
                         student_list[6] = f"{new_college_code} - {new_college_name}"
                     else:
@@ -496,12 +495,12 @@ class CollegeManager:
         college_key = f"{college_code} - {college_name}"
 
         if messagebox.askyesno("Confirm Delete", f"Are you sure you want to delete college '{college_key}'?\nCourses will remain, but students will be marked with N/A in College."):
-            # Remove the college
+            
             deleted_courses = self.college_courses.pop(college_key, [])
             if college_key in college_courses:
                 del college_courses[college_key]
 
-            # Update students: set college = "N/A", leave course untouched
+            
             updated_students = []
             for student in all_students:
                 student_list = list(student)
@@ -595,7 +594,7 @@ class CollegeManager:
                         course_code, course_name = course_parts
                         courses_to_save.append([course_code, course_name, college_code])
 
-            # Add orphaned courses from student data that are no longer linked to a college
+            
             known_courses = set(f"{c[0]} - {c[1]}" for c in courses_to_save)
             used_courses = set(s[7] for s in all_students if len(s) >= 8)
             orphaned_courses = used_courses - known_courses
@@ -738,24 +737,23 @@ class CourseManager:
             courses = []
             
             selected_college = self.college_filter_var.get()
-            # Process all colleges including orphaned courses
+            
             for college_key, course_list in self.college_courses.items():
-            # Skip if we're filtering and this isn't the selected college
+            
                 if selected_college != "All Colleges" and college_key != selected_college:
                     continue
                 for course in course_list:
                     parts = course.split(" - ", 1)
                     if len(parts) == 2:
                         code, name = parts
-                        # For orphaned courses, show "N/A" as college
+                        
                         if college_key == "_orphaned_":
                             courses.append((code, name, "N/A"))
                         else:
-                            # For normal courses, show the college code
                             college_code = college_key.split(" - ")[0]
                             courses.append((code, name, college_code))
 
-            # Apply search if any
+            
             search_text = self.search_var.get().lower()
             search_by = self.search_by_var.get()
 
@@ -765,7 +763,7 @@ class CourseManager:
                 elif search_by == "Course Name":
                     courses = [c for c in courses if search_text in c[1].lower()]
 
-            # Apply sorting
+            
             sort_by = self.sort_var.get()
             reverse = self.sort_order.get() == "Descending"
             if sort_by == "Course Code":
@@ -775,7 +773,7 @@ class CourseManager:
             else:
                 courses.sort(key=lambda x: x[2], reverse=reverse)
 
-            # Display all courses
+            
             for code, name, college in courses:
                 self.course_table.insert("", "end", values=(code, name, college))
 
@@ -924,24 +922,24 @@ class CourseManager:
                 if self.check_course_duplicate(new_code, new_college, new_name, exclude_course=old_course):
                     return
 
-            # Get college codes for updating student records
+            
             old_college_code = "N/A" if full_college_key == "_orphaned_" else full_college_key.split(' - ')[0]
             new_college_code = new_college.split(' - ')[0] if ' - ' in new_college else new_college
             
-            # Update course in college structure
+            
             if old_course in self.college_courses.get(full_college_key, []):
                 self.college_courses[full_college_key].remove(old_course)
                 
             self.college_courses[new_college].append(new_course)
             
-            # Update student records with both new course and college info
+            
             self.update_student_records_course(old_course, new_course, old_college_code, new_college_code)
             
-            # Save changes
+            
             self.save_to_csv()
             save_students_to_csv()
             
-            # Refresh displays
+            
             self.refresh_table()
             if self.student_table_ref:
                 self.student_table_ref.refresh_table()
@@ -960,45 +958,45 @@ class CourseManager:
         global all_students
         updated_students = []
         
-        # Extract old course code safely
+        
         old_course_code = old_course.split(' - ')[0] if isinstance(old_course, str) and ' - ' in old_course else old_course
         
         for student in all_students:
-            if not student or len(student) < 8:  # Skip invalid records
+            if not student or len(student) < 8:  
                 updated_students.append(student)
                 continue
                 
             student_list = list(student)
             
-            # Safely get student's course info
+            
             student_course = student_list[7] if len(student_list) > 7 else ""
             student_course_code = student_course.split(' - ')[0] if isinstance(student_course, str) and ' - ' in student_course else student_course
             
-            # Safely get student's college info
+            
             student_college = student_list[6] if len(student_list) > 6 else ""
             student_college_code = student_college.split(' - ')[0] if isinstance(student_college, str) and ' - ' in student_college else student_college
             
-            # Check if this record needs updating
+            
             needs_update = (
                 student_course == old_course or 
                 student_course_code == old_course_code or
-                student_course_code == old_course  # Handle case where old_course might be just a code
+                student_course_code == old_course  
             )
             
             if needs_update:
-            # Update course to new full name
+            
                 student_list[7] = new_course if isinstance(new_course, str) else ""
                 
-                # Update college if it matches the old college code or was N/A
+                
                 student_college = student_list[6] if len(student_list) > 6 else ""
                 student_college_code = student_college.split(' - ')[0] if isinstance(student_college, str) and ' - ' in student_college else student_college
                 
                 if student_college_code == old_college_code or student_college == "N/A":
-                    # Find the full college name in college_courses
+                   
                     full_college_name = next(
                         (college for college in self.college_courses 
                         if college.startswith(f"{new_college_code} - ")),
-                        new_college_code  # Fallback to just code if not found
+                        new_college_code  
                     )
                     student_list[6] = full_college_name
                 
@@ -1025,7 +1023,7 @@ class CourseManager:
         if not messagebox.askyesno("Confirm Delete", f"Are you sure you want to delete {course_full}?"):
             return
 
-        # 1. Remove from memory structure
+        
         if college_code == "N/A":
             if "_orphaned_" in self.college_courses and course_full in self.college_courses["_orphaned_"]:
                 self.college_courses["_orphaned_"].remove(course_full)
@@ -1034,25 +1032,25 @@ class CourseManager:
             if college_key and course_full in self.college_courses.get(college_key, []):
                 self.college_courses[college_key].remove(course_full)
 
-        # 2. Update student records that reference this course
+        
         global all_students
         updated_students = []
         for student in all_students:
-            if len(student) >= 8:  # Ensure student has course field
+            if len(student) >= 8: 
                 student_list = list(student)
-                # Check if course matches either full name or just code
+                
                 if (student_list[7] == course_full or 
                     (isinstance(student_list[7], str) and 
                     student_list[7].startswith(f"{course_code} -"))):
-                    student_list[7] = "N/A"  # Reset course to N/A
+                    student_list[7] = "N/A"  
                 updated_students.append(tuple(student_list))
             else:
-                updated_students.append(student)  # Keep invalid records as-is
+                updated_students.append(student)  
         all_students = updated_students
 
-        # 3. Save changes to both files
+        
         try:
-            # Save course changes
+           
             with open(COURSE_CSV, 'w', newline='') as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerow(["Course Code", "Course Name", "College Code"])
@@ -1063,14 +1061,14 @@ class CourseManager:
                         if len(parts) == 2:
                             writer.writerow([parts[0], parts[1], college_code])
             
-            # Save student changes
+            
             save_students_to_csv()
 
         except Exception as e:
             messagebox.showerror("Save Error", f"Failed to save changes: {str(e)}")
             return
 
-        # 4. Refresh displays
+        
         self.refresh_table()
         if self.student_table_ref:
             self.student_table_ref.refresh_table()
@@ -1112,7 +1110,7 @@ class CourseManager:
                 writer = csv.writer(csvfile)
                 writer.writerow(["Course Code", "Course Name", "College Code"])
                 
-                # Save all courses including orphaned ones
+                
                 for college_key, courses in self.college_courses.items():
                     college_code = "N/A" if college_key == "_orphaned_" else college_key.split(' - ')[0]
                     for course in courses:
@@ -1145,6 +1143,8 @@ def refresh_table(students_to_display=None):
         students_to_display = get_filtered_students()
 
     table.delete(*table.get_children())
+
+    
 
     total_pages = max(1, (len(students_to_display) + rows_per_page - 1) // rows_per_page)
     current_page = min(current_page, total_pages)
@@ -1205,6 +1205,9 @@ def add_student():
         all_students.append(new_student)
         refresh_table()
         save_to_csv()
+        if 'student_filter_sort' in globals() and student_filter_sort:
+            student_filter_sort.apply_filters()
+            student_filter_sort.apply_sort()
         new_window.destroy()
 
     
@@ -1220,13 +1223,13 @@ def add_student():
     def update_courses(*args):
         selected_college = college_var.get()
         
-        # Skip if no college selected or invalid
+        
         if not selected_college or selected_college == "_orphaned_":
             course_dropdown['values'] = []
             course_var.set('')
             return
         
-        # Get courses for selected college
+        
         course_options = college_courses.get(selected_college, [])
         course_dropdown['values'] = course_options
         course_var.set('')
@@ -1278,7 +1281,7 @@ def add_student():
     label_gender.grid(row=5, column=0)
     gender_var = tk.StringVar(new_window)
     gender_choices = ["Male", "Female", "Others"]
-    gender_dropdown = ttk.Combobox(new_window, textvariable=gender_var, values=gender_choices, state='readonly', width=17)  # Increased width to show full names
+    gender_dropdown = ttk.Combobox(new_window, textvariable=gender_var, values=gender_choices, state='readonly', width=17)  
     gender_dropdown.grid(row=5, column=1, sticky="w")
 
     
@@ -1286,15 +1289,15 @@ def add_student():
     label_yearlevel.grid(row=6, column=0)
     yearlevel_var = tk.StringVar(new_window)
     yearlevel_choices = ["1st", "2nd", "3rd", "4th", "5+"]
-    yearlevel_dropdown = ttk.Combobox(new_window, textvariable=yearlevel_var, values=yearlevel_choices, state='readonly', width=17)  # Increased width to show full names
+    yearlevel_dropdown = ttk.Combobox(new_window, textvariable=yearlevel_var, values=yearlevel_choices, state='readonly', width=17)  
     yearlevel_dropdown.grid(row=6, column=1, sticky="w")
 
     
     label_college = tk.Label(new_window, text="College:", bg="#800000", fg="white")
     label_college.grid(row=7, column=0)
     college_var = tk.StringVar(new_window)
-    college_options = [k for k in college_courses if k != "_orphaned_"]  # Orphaned courses excluded
-    college_dropdown = ttk.Combobox(new_window, textvariable=college_var, values=college_options, state='readonly', width=40)  # Increased width to show full names
+    college_options = [k for k in college_courses if k != "_orphaned_"]  
+    college_dropdown = ttk.Combobox(new_window, textvariable=college_var, values=college_options, state='readonly', width=40)  
     college_dropdown.grid(row=7, column=1)
     college_dropdown.bind("<<ComboboxSelected>>", update_courses)
 
@@ -1302,12 +1305,13 @@ def add_student():
     label_course = tk.Label(new_window, text="Course:", bg="#800000", fg="white")
     label_course.grid(row=8, column=0)
     course_var = tk.StringVar(new_window)
-    course_dropdown = ttk.Combobox(new_window, textvariable=course_var, values=[], state='readonly', width=40)  # Increased width to show full names
+    course_dropdown = ttk.Combobox(new_window, textvariable=course_var, values=[], state='readonly', width=40)  
     course_dropdown.grid(row=8, column=1)
 
     button_save = tk.Button(new_window, text="Save", bg="#d9a300", command=save_student)
     button_save.grid(row=9, column=0, columnspan=2, pady=10)
 
+    
 
 def delete_student():
     global all_students
@@ -1324,7 +1328,9 @@ def delete_student():
         all_students = [student for student in all_students if student[0] != deleted_id]
         
         save_to_csv()
-        
+        if 'student_filter_sort' in globals() and student_filter_sort:
+            student_filter_sort.apply_filters()
+            student_filter_sort.apply_sort()
         refresh_table()
 
 
@@ -1379,7 +1385,9 @@ def update_student():
         
        
         save_to_csv()
-        
+        if 'student_filter_sort' in globals() and student_filter_sort:
+            student_filter_sort.apply_filters()
+            student_filter_sort.apply_sort()
         refresh_table()
         
         update_window.destroy()
@@ -1460,7 +1468,7 @@ def update_student():
     label_gender.grid(row=5, column=0)
     gender_var = tk.StringVar(update_window)
     gender_choices = ["Male", "Female", "Others"]
-    gender_dropdown = ttk.Combobox(update_window, textvariable=gender_var, values=gender_choices, state='readonly', width=17)  # Increased width to show full names
+    gender_dropdown = ttk.Combobox(update_window, textvariable=gender_var, values=gender_choices, state='readonly', width=17)  
     gender_dropdown.grid(row=5, column=1, sticky="w")
     gender_var.set(current_values[4]) 
 
@@ -1469,7 +1477,7 @@ def update_student():
     label_yearlevel.grid(row=6, column=0)
     yearlevel_var = tk.StringVar(update_window)
     yearlevel_choices = ["1st", "2nd", "3rd", "4th", "5+"]
-    yearlevel_dropdown = ttk.Combobox(update_window, textvariable=yearlevel_var, values=yearlevel_choices, state='readonly', width=17)  # Increased width to show full names
+    yearlevel_dropdown = ttk.Combobox(update_window, textvariable=yearlevel_var, values=yearlevel_choices, state='readonly', width=17)  
     yearlevel_dropdown.grid(row=6, column=1, sticky="w")
     yearlevel_var.set(current_values[5])  
 
@@ -1478,7 +1486,7 @@ def update_student():
     label_college.grid(row=7, column=0)
     college_var = tk.StringVar(update_window)
     college_options = [k for k in college_courses if k != "_orphaned_"]
-    college_dropdown = ttk.Combobox(update_window, textvariable=college_var, values=college_options, state='readonly', width=40)  # Increased width to show full names
+    college_dropdown = ttk.Combobox(update_window, textvariable=college_var, values=college_options, state='readonly', width=40)  
     college_dropdown.grid(row=7, column=1)
     college_dropdown.bind("<<ComboboxSelected>>", update_courses)
   
@@ -1599,7 +1607,8 @@ def go_to_page(page_num):
     global current_page, total_pages
     if 1 <= page_num <= total_pages:
         current_page = page_num
-        refresh_table()
+        data = filtered_students if 'filtered_students' in globals() else all_students
+        refresh_table(data)
 
 def search_student(event=None):
     global current_page
@@ -1923,6 +1932,7 @@ class StudentFilterSort:
         reverse = self.sort_order.get() == "Descending"
 
         if sort_by == "Original Order":
+            filtered_students = list(all_students)  
             refresh_table(filtered_students)
             return
 
@@ -1934,8 +1944,8 @@ class StudentFilterSort:
 
         index = index_map.get(sort_by, 0)
 
-        sorted_list = sorted(filtered_students, key=lambda s: s[index], reverse=reverse)
-        refresh_table(sorted_list)
+        filtered_students = sorted(filtered_students, key=lambda s: s[index], reverse=reverse)
+        refresh_table(filtered_students)
         
     def refresh_filter_values(self):
         current_college = self.college_var.get()
